@@ -1,0 +1,18 @@
+body {
+	background-color: black;
+}
+
+.container {
+	position: relative;
+}
+
+#dolphins {
+	background-image: url(underwater.jpg);
+	background-repeat: repeat-x;
+}
+
+.title {
+	position: absolute;
+	left: 0px;
+	top: 100px;
+}
