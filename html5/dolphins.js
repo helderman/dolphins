@@ -1,4 +1,7 @@
 window.onload = function() {
+	document.body.classList.add('loaded');
+	document.getElementById('music').play();
+
 	var deg2rad = Math.PI / 180;
 	function sin(degrees) { return Math.sin(degrees * deg2rad); }
 	function cos(degrees) { return Math.cos(degrees * deg2rad); }
@@ -9,7 +12,28 @@ window.onload = function() {
 	var dolphin_x, dolphin_y, dolphin_z, dolphin_phase;
 	var dolphin_dir = 0;
 	var dolphin_amp = 20;
-	var cam = {zoom: 500};
+	var cam = {
+		zoom: 1.4 * canvas.height,
+		calculate_position: function(time) {
+			if (time < 20000) {
+				// Dolphins rushing in from behind.
+				// (Actually, the dolphins are stationary;
+				// it's the camera that is moving backward!)
+				this.dir = 20 - time / 2000;
+				this.x = -0.12 * (time - 8000);
+				this.y = -20;
+				this.z = -20;
+			}
+			else {
+				// Camera circling around the dolphins.
+				this.dir = time / 100;
+				this.x = -150 * cos(this.dir);
+				this.y = -150 * sin(this.dir);
+				this.z = 0;
+			}
+			return (this.zoom * this.dir * deg2rad) + 'px 0';
+		}
+	};
 
 	var pathmgr = {
 		go: function(x, y, width) {
@@ -84,24 +108,7 @@ window.onload = function() {
 		paint_flippers(wave);
 		paint_body(wave);
 	}
-	function position_camera(time) {
-		if (time < 20000) {
-			cam.dir = 20 - time / 2000;
-			cam.x = -0.12 * (time - 8000);
-			cam.y = -20;
-			cam.z = -20;
-		}
-		else {
-			cam.dir = time / 100;
-			cam.x = -150 * cos(cam.dir);
-			cam.y = -150 * sin(cam.dir);
-			cam.z = 0;
-		}
-	}
-	function paint_frame(time) {
-		position_camera(time);
-		canvas.style.backgroundPosition = (cam.zoom * cam.dir * deg2rad) + 'px 0';
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	function paint_dolphins(time) {
 		for (var i = 20; i >= -20; i -= 20) {
 			dolphin_x = i;
 			dolphin_y = -2 * i;
@@ -109,6 +116,11 @@ window.onload = function() {
 			dolphin_phase = 220 + i;
 			paint_dolphin(0.12 * time);
 		}
+	}
+	function paint_frame(time) {
+		canvas.style.backgroundPosition = cam.calculate_position(time);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		paint_dolphins(time);
 	}
 
 	// Thanks to:

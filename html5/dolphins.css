@@ -1,18 +1,68 @@
 body {
+	color: #E0EBF1;
 	background-color: black;
+	font-family: serif;
 }
 
 .container {
 	position: relative;
+	font-family: sans-serif;
+	display: none;
+}
+
+.loaded .container {
+	display: block;
+}
+
+.loaded h2 {
+	display: none;
 }
 
 #dolphins {
-	background-image: url(underwater.jpg);
-	background-repeat: repeat-x;
+	background: white url(underwater.jpg) repeat-x;
+}
+
+.present {
+	font-size: 20pt;
+	font-weight: bold;
+	color: #135B8D;
+	position: absolute;
+	left: 20px;
+	top: 100px;
+	animation: 6s linear 1.5s fade both;
 }
 
 .title {
 	position: absolute;
-	left: 0px;
+	left: 0;
 	top: 100px;
+	animation: 7s linear 11.5s fade both;
+}
+
+.trivia {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding: 10px;
+	animation: 10s linear fade both;
+}
+
+#trivia01 { animation-delay: 24s; }
+#trivia02 { animation-delay: 35s; }
+#trivia03 { animation-delay: 46s; }
+#trivia04 { animation-delay: 57s; }
+#trivia05 { animation-delay: 68s; }
+#trivia06 { animation-delay: 79s; }
+#trivia07 { animation-delay: 90s; }
+#trivia08 { animation-delay: 101s; }
+#trivia09 { animation-delay: 112s; }
+#trivia10 { animation-delay: 123s; }
+#trivia11 { animation-delay: 134s; }
+#trivia12 { animation-delay: 145s; }
+
+@keyframes fade {
+	0% { opacity: 0; }
+	10% { opacity: 1; }
+	80% { opacity: 1; }
+	100% { opacity: 0; }
 }
