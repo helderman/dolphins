@@ -12,6 +12,7 @@ window.onload = function() {
 	var dolphin_x, dolphin_y, dolphin_z, dolphin_phase;
 	var dolphin_dir = 0;
 	var dolphin_amp = 20;
+
 	var cam = {
 		zoom: 1.4 * canvas.height,
 		calculate_position: function(time) {
@@ -19,19 +20,27 @@ window.onload = function() {
 				// Dolphins rushing in from behind.
 				// (Actually, the dolphins are stationary;
 				// it's the camera that is moving backward!)
-				this.dir = 20 - time / 2000;
+				this.set_dir(20 - time / 2000);
 				this.x = -0.12 * (time - 8000);
 				this.y = -20;
 				this.z = -20;
 			}
 			else {
 				// Camera circling around the dolphins.
-				this.dir = time / 100;
-				this.x = -150 * cos(this.dir);
-				this.y = -150 * sin(this.dir);
+				this.set_dir(time / 100);
+				this.x = -150 * this.cos;
+				this.y = -150 * this.sin;
 				this.z = 0;
 			}
-			return (this.zoom * this.dir * deg2rad) + 'px 0';
+			return (this.zoom * this.dir) + 'px 0';
+		},
+		set_dir: function(degrees) {
+			this.dir = degrees * deg2rad;
+			this.cos = Math.cos(this.dir);
+			this.sin = Math.sin(this.dir);
+		},
+		rotated: function(x, y) {
+			return x * this.cos + y * this.sin;
 		}
 	};
 
@@ -57,10 +66,10 @@ window.onload = function() {
 	}
 	function rotated_go_to(x, y, z, size) {
 		flat_go_to(
-			x * sin(cam.dir) - y * cos(cam.dir),
+			cam.rotated(-y, x),
 			z,
 			size,
-			cam.zoom / (x * cos(cam.dir) + y * sin(cam.dir)));
+			cam.zoom / cam.rotated(x, y));
 	}
 	function go_to(x, y, z, size, wave) {
 		rotated_go_to(
