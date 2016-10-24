@@ -1,4 +1,4 @@
-window.onload = function() {
+preloader(function() {
 	document.body.classList.add('loaded');
 	document.getElementById('music').play();
 
@@ -135,4 +135,4 @@ window.onload = function() {
 	// Thanks to:
 	// http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
 	(function f(time) { requestAnimationFrame(f); paint_frame(time); })();
-};
+});

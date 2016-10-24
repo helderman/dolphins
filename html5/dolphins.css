@@ -32,6 +32,12 @@ body {
 	animation: 6s linear 1.5s fade both;
 }
 
+.preload {
+	position: absolute;
+	left: -999px;
+	top: 0;
+}
+
 .title {
 	position: absolute;
 	left: 0;
