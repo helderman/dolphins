@@ -4,6 +4,16 @@ body {
 	font-family: serif;
 }
 
+#dolphins {
+	background: url(underwater.jpg) repeat-x;
+}
+
+.preload {
+	position: absolute;
+	left: -999px;
+	top: 0;
+}
+
 .container {
 	position: relative;
 	font-family: sans-serif;
@@ -18,11 +28,7 @@ body {
 	display: none;
 }
 
-#dolphins {
-	background: white url(underwater.jpg) repeat-x;
-}
-
-.present {
+.loaded .present {
 	font-size: 20pt;
 	font-weight: bold;
 	color: #135B8D;
@@ -32,20 +38,14 @@ body {
 	animation: 6s linear 1.5s fade both;
 }
 
-.preload {
-	position: absolute;
-	left: -999px;
-	top: 0;
-}
-
-.title {
+.loaded .title {
 	position: absolute;
 	left: 0;
 	top: 100px;
 	animation: 7s linear 11.5s fade both;
 }
 
-.trivia {
+.loaded .trivia {
 	position: absolute;
 	left: 0;
 	bottom: 0;
