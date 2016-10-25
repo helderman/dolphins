@@ -134,5 +134,13 @@ preloader(function() {
 
 	// Thanks to:
 	// http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
-	(function f(time) { requestAnimationFrame(f); paint_frame(time); })();
+
+	var time0;
+	function animation_loop(time) {
+		requestAnimationFrame(animation_loop);
+		paint_frame(time - time0);
+	}
+	requestAnimationFrame(function(time) {
+		animation_loop(time0 = time);
+	});
 });
