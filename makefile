@@ -1,4 +1,4 @@
-all: html5/underwater.png
+all: html5/underwater.jpg
 
-html5/underwater.png: script-fu/create-underwater.scm
+html5/underwater.jpg: script-fu/create-underwater.scm
 	script-fu/execute.sh "$<" '(create-underwater "$@")'
