@@ -1,4 +1,4 @@
-preloader(function() {
+var preloader = new Preloader(function() {
 	document.body.classList.add('loaded');
 	document.getElementById('music').play();
 
@@ -144,3 +144,5 @@ preloader(function() {
 		animation_loop(time0 = time);
 	});
 });
+preloader.add_all_images();
+preloader.done();
