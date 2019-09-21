@@ -9,6 +9,10 @@ var preloader = new Preloader(function() {
 	var canvas = document.getElementById('dolphins');
 	var ctx = canvas.getContext('2d');
 
+	var scaler = function() { fit(canvas); };
+	scaler();
+	window.onresize = scaler;
+
 	var dolphin_x, dolphin_y, dolphin_z, dolphin_phase;
 	var dolphin_dir = 0;
 	var dolphin_amp = 20;
