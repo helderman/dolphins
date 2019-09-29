@@ -1,5 +1,8 @@
-var preloader = new Preloader(function() {
-	document.body.classList.add('loaded');
+function dolphins() {
+	window.removeEventListener('click', dolphins, false);
+	window.removeEventListener('keypress', dolphins, false);
+
+	document.body.className = 'running';
 	document.getElementById('music').play();
 
 	var deg2rad = Math.PI / 180;
@@ -147,6 +150,12 @@ var preloader = new Preloader(function() {
 	requestAnimationFrame(function(time) {
 		animation_loop(time0 = time);
 	});
+}
+
+var preloader = new Preloader(function() {
+	document.body.className = 'loaded';
+	window.addEventListener('click', dolphins, false);
+	window.addEventListener('keypress', dolphins, false);
 });
 preloader.add_all_images();
 preloader.done();

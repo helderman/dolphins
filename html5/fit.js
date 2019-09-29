@@ -5,5 +5,7 @@ function fit(canvas) {
 		window.innerWidth / canvas.width,
 		window.innerHeight / canvas.height
 	);
-	document.body.style.transform = 'scale(' + factor + ')';
+	const s = document.body.style;
+	s.transform = 'scale(' + factor + ')';
+	s.marginLeft = ((window.innerWidth - factor * canvas.width) / 2) + 'px';
 }

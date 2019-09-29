@@ -1,7 +1,5 @@
 body {
-	color: #E0EBF1;
-	background-color: white;
-	font-family: serif;
+	background: linear-gradient(white, #135B8D) fixed;
 	margin: 0;
 	overflow: hidden;
 	transform-origin: 0 0;
@@ -13,25 +11,30 @@ body {
 
 .preload {
 	position: absolute;
-	left: -999px;
-	top: 0;
+	top: -999px;
 }
 
-.container {
-	position: relative;
+.stage1 {
+	text-align: center;
+}
+
+.loaded .stage0,
+.running .stage0,
+.running .stage1 {
+	display: none;
+}
+
+.stage2 {
+	color: #E0EBF1;
 	font-family: sans-serif;
 	display: none;
 }
 
-.loaded .container {
+.running .stage2 {
 	display: block;
 }
 
-.loaded h2 {
-	display: none;
-}
-
-.loaded .present {
+.running .present {
 	font-size: 20pt;
 	font-weight: bold;
 	color: #135B8D;
@@ -41,14 +44,14 @@ body {
 	animation: 6s linear 1.5s fade both;
 }
 
-.loaded .title {
+.running .title {
 	position: absolute;
 	left: 0;
 	top: 100px;
 	animation: 7s linear 11.5s fade both;
 }
 
-.loaded .trivia {
+.running .trivia {
 	position: absolute;
 	left: 0;
 	bottom: 0;
