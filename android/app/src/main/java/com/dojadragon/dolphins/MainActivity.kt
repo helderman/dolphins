@@ -10,43 +10,47 @@ import android.widget.Button
 import androidx.annotation.RequiresApi
 
 class MainActivity : AppCompatActivity() {
-    //private val drawer = DolphinsDrawer(this, SystemClock::elapsedRealtime)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*
-        startActivity(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) intentActivate() else intentList())
+        startActivity(intentActivateWallpaperWithFallback)
         finish()
 
-         */
-
+        /***
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.btnActivate).setOnClickListener {
-            startActivity(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) intentActivate() else intentList())
+            startActivity(intentActivateWallpaperWithFallback)
             finish()
         }
 
         findViewById<Button>(R.id.btnList).setOnClickListener {
-            startActivity(intentList())
+            startActivity(intentListWallpapers)
             finish()
         }
 
         findViewById<Button>(R.id.btnLater).setOnClickListener {
             finish()
         }
+         ***/
     }
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
-    private fun intentActivate(): Intent {
-        val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
-        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-            ComponentName(this, DolphinsService::class.java))
-        return intent
-    }
+    private val intentActivateWallpaperWithFallback: Intent
+        get() =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+                intentActivateWallpaper
+            else
+                intentListWallpapers
 
-    private fun intentList(): Intent {
-        return Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER)
-    }
+    private val intentActivateWallpaper: Intent
+        @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
+        get() =
+            Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).also {
+                it.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                    ComponentName(this, DolphinsService::class.java))
+            }
+
+    private val intentListWallpapers: Intent
+        get() =
+            Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER)
 }

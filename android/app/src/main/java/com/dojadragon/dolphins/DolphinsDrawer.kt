@@ -10,18 +10,15 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 class DolphinsDrawer(context: Context, private val clock: () -> Long) {
-    private val paint = Paint()
     private val backgroundTop = ContextCompat.getColor(context, R.color.dolphins_background_top)
     private val backgroundBottom = ContextCompat.getColor(context, R.color.dolphins_background_bottom)
-
-    init {
-        paint.color = ContextCompat.getColor(context, R.color.dolphins_body)
-        paint.isAntiAlias = true
-        paint.strokeCap = Paint.Cap.ROUND
-        paint.strokeJoin = Paint.Join.ROUND
-        paint.style = Paint.Style.STROKE
+    private val paint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.dolphins_body)
+        isAntiAlias = true
+        strokeCap = Paint.Cap.ROUND
+        strokeJoin = Paint.Join.ROUND
+        style = Paint.Style.STROKE
     }
-
     private var width = 0
     private var height = 0
 
@@ -86,56 +83,55 @@ class DolphinsDrawer(context: Context, private val clock: () -> Long) {
     private fun Canvas.drawTailFin(wave: Double) {
         for (i in 0..8) {
             val y = 12f * (1.0 - sin(0.14 * abs(i - 5.75))).toFloat()
-            this.drawInMotion(wave, i - 61f, 0f, -63f, y, 0f, 2f)
-            this.drawInMotion(wave, i - 61f, 0f, -63f, -y, 0f, 2f)
+            val origin = Vertex(wave, i - 61f, 0f)
+            this.drawStadium(origin, Vertex(wave, -63f, y, 0f), 2f)
+            this.drawStadium(origin, Vertex(wave, -63f, -y, 0f), 2f)
         }
     }
 
     private fun Canvas.drawDorsalFin(wave: Double) {
         for (i in 0..11) {
-            val z = -12f * cos(0.07 * (i - 2.0)).toFloat()
-            this.drawInMotion(wave, i - 12f, 0f, i - 27f, 0f, z, 2f)
+            this.drawStadium(
+                Vertex(wave, i - 12f, 0f),
+                Vertex(wave, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
+                2f
+            )
         }
     }
 
     private fun Canvas.drawFlippers(wave: Double) {
         for (i in 0..8) {
             val z = 11f * cos(0.07 * i).toFloat()
-            this.drawInMotion(wave, i + 9f, 0f, i - 6f, z, z, 2f)
-            this.drawInMotion(wave, i + 9f, 0f, i - 6f, -z, z, 2f)
+            val origin = Vertex(wave, i + 9f, 0f)
+            this.drawStadium(origin, Vertex(wave, i - 6f, z, z), 2f)
+            this.drawStadium(origin, Vertex(wave, i - 6f, -z, z), 2f)
         }
     }
 
     private fun Canvas.drawBody(wave: Double) {
         for (i in 0..90) {
-            this.drawInMotion(wave, i - 61f, 0f, 10f - 8f * cos(0.7f * sqrt(91f - i) - 0.63f))
+            this.drawSphere(
+                Vertex(wave, i - 61f, 0f),
+                10f - 8f * cos(0.7f * sqrt(91f - i) - 0.63f)
+            )
         }
     }
 
-    private fun Canvas.drawInMotion(wave: Double, x1: Float, y1: Float, x2: Float, y2: Float, z2: Float, size: Float) {
-        val totalX1 = dolphinX + x1
-        val totalY1 = dolphinY + y1
-        val totalX2 = dolphinX + x2
-        val totalY2 = dolphinY + y2
-        val distance1 = 150f + totalX1 * camX + totalY1 * camY
-        val distance2 = 150f + totalX2 * camX + totalY2 * camY
-        paint.strokeWidth = size * 2 / (distance1 + distance2)
-        this.drawLine(
-            (totalX1 * camY - totalY1 * camX) / distance1,
-            (dolphinZ + 20f * sin(wave + 0.017 * x1).toFloat()) / distance1,
-            (totalX2 * camY - totalY2 * camX) / distance2,
-            (z2 + dolphinZ + 20f * sin(wave + 0.017 * x2).toFloat()) / distance2,
-            paint)
+    private fun Canvas.drawSphere(vertex: Vertex, size: Float) {
+        paint.strokeWidth = size / vertex.distance
+        this.drawPoint(vertex.canvasX, vertex.canvasY, paint)
     }
 
-    private fun Canvas.drawInMotion(wave: Double, x: Float, y: Float, size: Float) {
-        val totalX = dolphinX + x
-        val totalY = dolphinY + y
+    private fun Canvas.drawStadium(vertex1: Vertex, vertex2: Vertex, size: Float) {
+        paint.strokeWidth = size * 2 / (vertex1.distance + vertex2.distance)
+        this.drawLine(vertex1.canvasX, vertex1.canvasY, vertex2.canvasX, vertex2.canvasY, paint)
+    }
+
+    private inner class Vertex(wave: Double, x: Float, y: Float, z: Float = 0f) {
+        private val totalX = dolphinX + x
+        private val totalY = dolphinY + y
         val distance = 150f + totalX * camX + totalY * camY
-        paint.strokeWidth = size / distance
-        this.drawPoint(
-            (totalX * camY - totalY * camX) / distance,
-            (dolphinZ + 20f * sin(wave + 0.017 * x).toFloat()) / distance,
-            paint)
+        val canvasX = (totalX * camY - totalY * camX) / distance
+        val canvasY = (z + dolphinZ + 20f * sin(wave + 0.017 * x).toFloat()) / distance
     }
 }
