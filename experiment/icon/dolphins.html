@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dolphins</title>
+<link rel="stylesheet" type="text/css" href="dolphins.css">
+</head>
+<body>
+<div class="stage0">
+<h3>Dolphins loading...</h3>
+</div>
+<div class="stage1">
+<h1>Dolphins</h1>
+<p>&#x1F41F; &#x1F41F; &#x1F41F;</p>
+<h3>A relaxing animation</h3>
+<p>by Ruud Helderman
+&lt;<a href="mailto:r.helderman@hccnet.nl">r.helderman@hccnet.nl</a>&gt;</p>
+<p>Music by
+<a href="http://www.freesound.org/people/Thoribass/sounds/320839/">Thoribass</a></p>
+<h2>Click anywhere or press any key to start</h2>
+<p>(Sorry, auto-play has been banned by major web browsers.)</p>
+<h1>~ ~ ~ ~ ~</h1>
+</div>
+<div class="stage2">
+<img class="title" src="dolphins.png" alt="" />
+<canvas id="dolphins" width="512" height="512"></canvas>
+<div class="present">HELDLAW<br />&nbsp; &nbsp; presents</div>
+<div class="trivia" id="trivia01">There are 40 different species of dolphins;<br />bottlenose dolphins are the most common species.</div>
+<div class="trivia" id="trivia02">Not all dolphins live in the sea;<br />there are 5 species of river dolphins.</div>
+<div class="trivia" id="trivia03">Dolphins are mammals. Just like us, they have lungs<br />and cannot breathe underwater.</div>
+<div class="trivia" id="trivia04">Dolphins do not breathe through the mouth; like<br />whales, they have a blowhole at the top of their head.</div>
+<div class="trivia" id="trivia05">Dolphins can hold their breath for about 15 minutes<br />before they must surface to breathe.</div>
+<div class="trivia" id="trivia06">Male dolphins are called "bulls", females "cows"<br />and young dolphins are called "calves".</div>
+<div class="trivia" id="trivia07">Dolphins are very intelligent; they are known to teach,<br />learn, cooperate, scheme, and grieve.</div>
+<div class="trivia" id="trivia08">Dolphins are highly social animals, often living in<br />'pods' of up to a dozen individuals.</div>
+<div class="trivia" id="trivia09">Dolphins communicate using a variety of clicks,<br />whistle-like sounds and other vocalizations.</div>
+<div class="trivia" id="trivia10">Dolphins also use nonverbal communication by<br />means of touch and posturing.</div>
+<div class="trivia" id="trivia11">Dolphins have few natural enemies, but many are<br />endangered by pollution, fishing industry and hunting.</div>
+<div class="trivia" id="trivia12">Thanks for watching. Please be nice to animals!</div>
+</div>
+<div class="sliders">
+<input type="range" id="time" min="0" max="100000" />
+<input type="range" id="diff" min="0" max="10000" />
+</div>
+<audio id="music" loop>
+<source src="320839__thoribass__soundscape1-freesound.mp3" type="audio/mpeg" />
+</audio>
+<img class="preload" alt="dolphins.png" src="" />
+<img class="preload" alt="underwater.jpg" src="" />
+<script type="text/javascript" src="preloader.js"></script>
+<script type="text/javascript" src="fit.js"></script>
+<script type="text/javascript" src="dolphins.js"></script>
+</body>
+</html>
