@@ -1,0 +1,43 @@
+name: android-build
+on: workflow_dispatch
+defaults:
+        run:
+                working-directory: android
+jobs:
+        build:
+                runs-on: ubuntu-latest
+                steps:
+                        - name: Checkout
+                          uses: actions/checkout@v2
+
+                        - name: Setup JDK
+                          uses: actions/setup-java@v1
+                          with:
+                                  java-version: 1.8
+
+                        - name: Setup Android SDK
+                          uses: android-actions/setup-android@v2
+
+                        - name: Make gradlew executable
+                          run: chmod +x ./gradlew
+
+                        - name: Decode keystore
+                          run: base64 -d <<<"$KEYSTORE" > android-upload.jks
+                          env:
+                                  KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+
+                        - name: Build
+                          run: ./gradlew --no-daemon bundleRelease
+                          env:
+                                  KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+                                  KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+                                  STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+
+                        - name: Delete keystore
+                          run: rm -f android-upload.jks
+
+                        - name: Upload artifacts
+                          uses: actions/upload-artifact@v2
+                          with:
+                                  name: android-artifacts
+                                  path: android/app/build/outputs/

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Dolphins</string>
-    <string name="dolphins_title">Dolphins</string>
+    <string name="dolphins_title">Dolphins Live Wallpaper</string>
     <string name="activate">Set as Live Wallpaper</string>
     <string name="list">Go to list of wallpapers</string>
-    <string name="later">Maybe later...</string>
+    <string name="later">Maybe later…</string>
 </resources>
