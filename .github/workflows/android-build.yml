@@ -18,6 +18,15 @@ jobs:
                         - name: Setup Android SDK
                           uses: android-actions/setup-android@v2
 
+                        - name: Debug before
+                          run: printenv
+
+                        - name: Set JAVA_HOME for gradle
+                          run: echo "JAVA_HOME=${{ env.JAVA_HOME_11_X64 }}" >> $GITHUB_ENV
+
+                        - name: Debug after
+                          run: printenv
+
                         - name: Make gradlew executable
                           run: chmod +x ./gradlew
 
