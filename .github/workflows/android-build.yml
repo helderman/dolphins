@@ -22,7 +22,7 @@ jobs:
                           run: printenv
 
                         - name: Set JAVA_HOME for gradle
-                          run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
+                          run: echo "JAVA_HOME='$JAVA_HOME_11_X64'" >> $GITHUB_ENV
 
                         - name: Debug after
                           run: printenv
@@ -40,7 +40,7 @@ jobs:
                           env:
                                   KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
                                   KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-                                  STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+                                  KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
                         - name: Delete keystore
                           run: rm -f android-upload.jks
