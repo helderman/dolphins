@@ -6,10 +6,10 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('android-upload.jks')
-            storePassword System.getenv(KEYSTORE_PASSWORD)
-            keyAlias System.getenv(KEY_ALIAS)
-            keyPassword System.getenv(KEY_PASSWORD)
+            storeFile file("android-upload.jks")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
         }
     }
     compileSdk 31
