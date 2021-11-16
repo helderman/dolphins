@@ -22,7 +22,7 @@ jobs:
                           run: printenv
 
                         - name: Set JAVA_HOME for gradle
-                          run: echo "JAVA_HOME=${{ env.JAVA_HOME_11_X64 }}" >> $GITHUB_ENV
+                          run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
 
                         - name: Debug after
                           run: printenv
