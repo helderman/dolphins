@@ -3,13 +3,14 @@ Relaxing animation,
 using a simple 3D-model of something that resembles a dolphin,
 based entirely on mathematical functions.
 
-## Android implementation (2021)
+License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
+## Android implementation (2021)
 Under construction.
 
-You can find a preliminary privacy policy [here](android/privacy/).
+You can find the privacy policy [here](android/privacy/).
 
-## HTML implementation (2016)
+## HTML5 implementation (2016)
 You can see it in action here:
 
 <https://helderman.github.io/dolphins/html5/dolphins.html>
