@@ -6,8 +6,6 @@ defaults:
 jobs:
         build:
                 runs-on: ubuntu-latest
-                env:
-                        KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
                 steps:
                         - name: Checkout
                           uses: actions/checkout@v2
@@ -22,6 +20,7 @@ jobs:
                           run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
                           env:
                                   KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
                         - name: Build
                           run: . ./gradlew --no-daemon bundleRelease
