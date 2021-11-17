@@ -31,19 +31,20 @@ jobs:
                           run: chmod +x ./gradlew
 
                         - name: Decode keystore
-                          run: base64 -d <<<"$KEYSTORE" > android-upload.jks
+                          run: base64 -d <<<"$KEYSTORE" > app/android-upload.jks
                           env:
                                   KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
 
                         - name: Build
                           run: ./gradlew --no-daemon bundleRelease
                           env:
+                                  KEYSTORE_FILENAME: android-upload.jks
+                                  KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
                                   KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
                                   KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-                                  KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
                         - name: Delete keystore
-                          run: rm -f android-upload.jks
+                          run: rm -f app/android-upload.jks
 
                         - name: Upload artifacts
                           uses: actions/upload-artifact@v2
