@@ -10,31 +10,33 @@ jobs:
                         - name: Checkout
                           uses: actions/checkout@v2
 
-                        - name: Setup JDK
-                          uses: actions/setup-java@v1
-                          with:
-                                  java-version: 1.8
-
                         - name: Setup Android SDK
                           uses: android-actions/setup-android@v2
+
+                        - name: Set JAVA_HOME for gradle
+                          run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
 
                         - name: Make gradlew executable
                           run: chmod +x ./gradlew
 
                         - name: Decode keystore
-                          run: base64 -d <<<"$KEYSTORE" > android-upload.jks
+                          run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
                           env:
                                   KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
                         - name: Build
                           run: ./gradlew --no-daemon bundleRelease
                           env:
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
+                                  KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
                                   KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
                                   KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-                                  STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
                         - name: Delete keystore
-                          run: rm -f android-upload.jks
+                          run: rm -f "$KEYSTORE_FILENAME"
+                          env:
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
                         - name: Upload artifacts
                           uses: actions/upload-artifact@v2
