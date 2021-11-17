@@ -16,6 +16,9 @@ jobs:
                         - name: Set JAVA_HOME for gradle
                           run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
 
+                        - name: Make gradlew executable
+                          run: chmod +x ./gradlew
+
                         - name: Decode keystore
                           run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
                           env:
@@ -23,7 +26,7 @@ jobs:
                                   KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
                         - name: Build
-                          run: . ./gradlew --no-daemon bundleRelease
+                          run: ./gradlew --no-daemon bundleRelease
                           env:
                                   KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
                                   KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
