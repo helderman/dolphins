@@ -6,9 +6,10 @@ import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 
+// Live Wallpaper
 class DolphinsService : WallpaperService() {
     override fun onCreateEngine(): Engine {
-        return DolphinsEngine(DolphinsDrawer(this, SystemClock::elapsedRealtime))
+        return DolphinsEngine(DolphinsDrawer(DolphinsFrame(this, SystemClock::elapsedRealtime)))
     }
 
     inner class DolphinsEngine(private val drawer: DolphinsDrawer) : Engine() {

@@ -8,7 +8,7 @@ import android.view.SurfaceView
 
 // Unused, but makes a nice example
 class DolphinsView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-    private val drawer = DolphinsDrawer(context, SystemClock::elapsedRealtime)
+    private val drawer = DolphinsDrawer(DolphinsFrame(context, SystemClock::elapsedRealtime))
 
     init {
         holder.addCallback(this)
