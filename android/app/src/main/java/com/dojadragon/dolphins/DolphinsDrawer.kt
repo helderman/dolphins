@@ -19,13 +19,6 @@ class DolphinsDrawer(context: Context, private val clock: () -> Long) {
         strokeJoin = Paint.Join.ROUND
         style = Paint.Style.STROKE
     }
-    private var width = 0
-    private var height = 0
-
-    fun setDimensions(width : Int, height : Int) {
-        this.width = width
-        this.height = height
-    }
 
     private var camX = 0f
     private var camY = 0f
@@ -38,13 +31,13 @@ class DolphinsDrawer(context: Context, private val clock: () -> Long) {
         try {
             canvas = surfaceHolder.lockCanvas()
             if (canvas != null) {
-                val zoom = 1.4f * minOf(width, height)
+                val zoom = 1.4f * minOf(canvas.width, canvas.height)
                 val time = clock()
                 camX = cos(0.0002 * time).toFloat()
                 camY = sin(0.0002 * time).toFloat()
                 canvas.save()
                 canvas.drawBackground()
-                canvas.translate(0.5f * width, 0.5f * height)
+                canvas.translate(0.5f * canvas.width, 0.5f * canvas.height)
                 canvas.scale(zoom, zoom)
                 canvas.drawDolphins(time)
                 canvas.restore()

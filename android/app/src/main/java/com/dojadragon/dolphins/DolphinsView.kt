@@ -23,7 +23,6 @@ class DolphinsView(context: Context, attrs: AttributeSet) : SurfaceView(context,
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        drawer.setDimensions(width, height)
         willDraw = true
         step()
     }

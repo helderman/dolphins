@@ -23,11 +23,6 @@ class DolphinsService : WallpaperService() {
             step()
         }
 
-        override fun onSurfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
-            super.onSurfaceChanged(holder, format, width, height)
-            drawer.setDimensions(width, height)
-        }
-
         override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
             super.onSurfaceDestroyed(holder)
             willDraw = false
