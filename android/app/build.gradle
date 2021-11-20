@@ -9,7 +9,7 @@ android {
             storeFile file(System.getenv("KEYSTORE_FILENAME"))
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyPassword System.getenv("KEY_PASSWORD")
-            keyAlias "upload"
+            keyAlias System.getenv("KEY_ALIAS")
         }
     }
     compileSdk 31
