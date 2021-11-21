@@ -1,3 +1,4 @@
+KRAK
 drawBackground()
 center()
 zoom(1.4)
