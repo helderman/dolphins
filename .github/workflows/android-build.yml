@@ -38,11 +38,11 @@ jobs:
                           env:
                                   KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
+                        - name: Unit tests
+                          run: ./gradlew --no-daemon testReleaseUnitTest
+
                         - name: Upload artifacts
                           uses: actions/upload-artifact@v2
                           with:
                                   name: android-artifacts
-                                  path: android/app/build/outputs/
-
-                        - name: Unit tests
-                          run: ./gradlew --no-daemon testReleaseUnitTest
+                                  path: android/app/build/{outputs,reports}/
