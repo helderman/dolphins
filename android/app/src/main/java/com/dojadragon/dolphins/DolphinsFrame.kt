@@ -1,125 +1,86 @@
 package com.dojadragon.dolphins
 
-import android.content.Context
-import android.graphics.Canvas
-import android.graphics.LinearGradient
-import android.graphics.Paint
-import android.graphics.Shader
-import androidx.core.content.ContextCompat
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
 // Drawing a frame of the animation
-class DolphinsFrame(context: Context, private val clock: () -> Long) {
-    private val backgroundTop = ContextCompat.getColor(context, R.color.dolphins_background_top)
-    private val backgroundBottom = ContextCompat.getColor(context, R.color.dolphins_background_bottom)
-    private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.dolphins_body)
-        isAntiAlias = true
-        strokeCap = Paint.Cap.ROUND
-        strokeJoin = Paint.Join.ROUND
-        style = Paint.Style.STROKE
-    }
-
-    private var camX = 0f
-    private var camY = 0f
-    private var dolphinX = 0f
-    private var dolphinY = 0f
-    private var dolphinZ = 0f
-
-    fun draw(canvas: Canvas) {
-        val zoom = 1.4f * minOf(canvas.width, canvas.height)
+class DolphinsFrame(private val clock: () -> Long) {
+    fun draw(canvas: IDolphinsCanvas) {
         val time = clock()
-        camX = cos(0.0002 * time).toFloat()
-        camY = sin(0.0002 * time).toFloat()
-
-        canvas.save()
         canvas.drawBackground()
-        canvas.translate(0.5f * canvas.width, 0.5f * canvas.height)
-        canvas.scale(zoom, zoom)
+        canvas.center()
+        canvas.zoom(1.4f)
         canvas.drawDolphins(time)
-        canvas.restore()
     }
 
-    private fun Canvas.drawBackground() {
-        paint.shader = LinearGradient(
-            0f, 0f, 0f, 1f * height,
-            backgroundTop, backgroundBottom, Shader.TileMode.CLAMP
-        )
-        this.drawPaint(paint)
-        paint.shader = null
-    }
-
-    private fun Canvas.drawDolphins(time: Long) {
+    private fun IDolphinsCanvas.drawDolphins(time: Long) {
+        val camX = cos(0.0002 * time).toFloat()
+        val camY = sin(0.0002 * time).toFloat()
         for (i in -1..1) {
-            dolphinX = 20f * i
-            dolphinY = -40f * i
-            dolphinZ = 20f * i
-            this.drawDolphin(0.002 * (time + 300 * i))
+            this.drawDolphin(DolphinsState(
+                camX,
+                camY,
+                20f * i,
+                -40f * i,
+                20f * i,
+                0.002 * (time + 300 * i)
+            ))
         }
     }
 
-    private fun Canvas.drawDolphin(wave: Double) {
-        this.drawTailFin(wave)
-        this.drawDorsalFin(wave)
-        this.drawFlippers(wave)
-        this.drawBody(wave)
+    private fun IDolphinsCanvas.drawDolphin(state: DolphinsState) {
+        this.drawTailFin(state)
+        this.drawDorsalFin(state)
+        this.drawFlippers(state)
+        this.drawBody(state)
     }
 
-    private fun Canvas.drawTailFin(wave: Double) {
+    private fun IDolphinsCanvas.drawTailFin(state: DolphinsState) {
         for (i in 0..8) {
             val y = 12f * (1.0 - sin(0.14 * abs(i - 5.75))).toFloat()
-            val origin = Vertex(wave, i - 61f, 0f)
-            this.drawStadium(origin, Vertex(wave, -63f, y, 0f), 2f)
-            this.drawStadium(origin, Vertex(wave, -63f, -y, 0f), 2f)
+            val origin = DolphinsVertex(state, i - 61f, 0f)
+            this.drawStadium(origin, DolphinsVertex(state, -63f, y, 0f), 2f)
+            this.drawStadium(origin, DolphinsVertex(state, -63f, -y, 0f), 2f)
         }
     }
 
-    private fun Canvas.drawDorsalFin(wave: Double) {
+    private fun IDolphinsCanvas.drawDorsalFin(state: DolphinsState) {
         for (i in 0..11) {
             this.drawStadium(
-                Vertex(wave, i - 12f, 0f),
-                Vertex(wave, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
+                DolphinsVertex(state, i - 12f, 0f),
+                DolphinsVertex(state, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
                 2f
             )
         }
     }
 
-    private fun Canvas.drawFlippers(wave: Double) {
+    private fun IDolphinsCanvas.drawFlippers(state: DolphinsState) {
         for (i in 0..8) {
             val z = 11f * cos(0.07 * i).toFloat()
-            val origin = Vertex(wave, i + 9f, 0f)
-            this.drawStadium(origin, Vertex(wave, i - 6f, z, z), 2f)
-            this.drawStadium(origin, Vertex(wave, i - 6f, -z, z), 2f)
+            val origin = DolphinsVertex(state, i + 9f, 0f)
+            this.drawStadium(origin, DolphinsVertex(state, i - 6f, z, z), 2f)
+            this.drawStadium(origin, DolphinsVertex(state, i - 6f, -z, z), 2f)
         }
     }
 
-    private fun Canvas.drawBody(wave: Double) {
+    private fun IDolphinsCanvas.drawBody(state: DolphinsState) {
         for (i in 0..90) {
             this.drawSphere(
-                Vertex(wave, i - 61f, 0f),
+                DolphinsVertex(state, i - 61f, 0f),
                 10f - 8f * cos(0.7f * sqrt(91f - i) - 0.63f)
             )
         }
     }
 
-    private fun Canvas.drawSphere(vertex: Vertex, size: Float) {
-        paint.strokeWidth = size / vertex.distance
-        this.drawPoint(vertex.canvasX, vertex.canvasY, paint)
+    private fun IDolphinsCanvas.drawSphere(vertex: DolphinsVertex, size: Float) {
+        this.setStrokeWidth(size / vertex.distance)
+        this.drawPoint(vertex.canvasX, vertex.canvasY)
     }
 
-    private fun Canvas.drawStadium(vertex1: Vertex, vertex2: Vertex, size: Float) {
-        paint.strokeWidth = size * 2 / (vertex1.distance + vertex2.distance)
-        this.drawLine(vertex1.canvasX, vertex1.canvasY, vertex2.canvasX, vertex2.canvasY, paint)
-    }
-
-    private inner class Vertex(wave: Double, x: Float, y: Float, z: Float = 0f) {
-        private val totalX = dolphinX + x
-        private val totalY = dolphinY + y
-        val distance = 150f + totalX * camX + totalY * camY
-        val canvasX = (totalX * camY - totalY * camX) / distance
-        val canvasY = (z + dolphinZ + 20f * sin(wave + 0.017 * x).toFloat()) / distance
+    private fun IDolphinsCanvas.drawStadium(vertex1: DolphinsVertex, vertex2: DolphinsVertex, size: Float) {
+        this.setStrokeWidth(size * 2 / (vertex1.distance + vertex2.distance))
+        this.drawLine(vertex1.canvasX, vertex1.canvasY, vertex2.canvasX, vertex2.canvasY)
     }
 }
