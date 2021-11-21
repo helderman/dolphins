@@ -15,7 +15,7 @@ class DolphinsService : WallpaperService() {
         ))
     }
 
-    inner class DolphinsEngine(private val drawer: DolphinsDrawer) : Engine() {
+    private inner class DolphinsEngine(private val drawer: DolphinsDrawer) : Engine() {
         private val handler = Handler(Looper.getMainLooper())
         private val runnable = Runnable { step() }
 
