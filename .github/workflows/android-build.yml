@@ -34,12 +34,17 @@ jobs:
                                   KEY_ALIAS: "upload"
 
                         - name: Delete keystore
+                          if: always()
                           run: rm -f "$KEYSTORE_FILENAME"
                           env:
                                   KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
+                        - name: Unit tests
+                          run: ./gradlew --no-daemon testReleaseUnitTest
+
                         - name: Upload artifacts
+                          if: always()
                           uses: actions/upload-artifact@v2
                           with:
                                   name: android-artifacts
-                                  path: android/app/build/outputs/
+                                  path: android/app/build/?????ts/
