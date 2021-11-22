@@ -8,7 +8,9 @@ License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 ## Android implementation (2021)
 Under construction.
 
-You can find the privacy policy [here](android/privacy/).
+![Build](https://github.com/helderman/dolphins/actions/workflows/android-build.yml/badge.svg)
+
+You can find the privacy policy [here](android/privacy/index.md).
 
 ## HTML5 implementation (2016)
 You can see it in action here:
