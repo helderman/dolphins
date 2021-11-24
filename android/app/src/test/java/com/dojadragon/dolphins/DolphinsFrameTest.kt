@@ -1,29 +1,24 @@
 package com.dojadragon.dolphins
 
-import org.junit.Test
 import org.junit.Assert.*
+import org.junit.Test
 
 // Unit tests for class DolphinsFrame
 class DolphinsFrameTest {
 
+    @Test
     // Captures drawing actions at time = 0 ms
+    fun draw_0s() = draw_Xs(0L, "frame0.txt")
+
     @Test
-    fun draw_0s() {
-        val canvas = DolphinsCanvasMock()
-        val frame = DolphinsFrame() { 0L }
-        val expected = getTxt("frame0.txt")
-
-        frame.draw(canvas)
-
-        assertEquals(expected, canvas.log)
-    }
-
     // Captures drawing actions at time = 1000 ms
-    @Test
-    fun draw_1s() {
+    fun draw_1s() = draw_Xs(1000L, "frame1.txt")
+
+    // Arrange, Act, Assert
+    private fun draw_Xs(time: Long, filename: String) {
+        val expected = getTxt(filename)
         val canvas = DolphinsCanvasMock()
-        val frame = DolphinsFrame() { 1000L }
-        val expected = getTxt("frame1.txt")
+        val frame = DolphinsFrame { time }
 
         frame.draw(canvas)
 

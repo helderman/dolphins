@@ -40,11 +40,14 @@ jobs:
                                   KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
                         - name: Unit tests
-                          run: ./gradlew --no-daemon testReleaseUnitTest
+                          run: ./gradlew --no-daemon test
+
+                        - name: Integration tests
+                          run: ./gradlew --no-daemon connectedAndroidTest
 
                         - name: Upload artifacts
                           if: always()
                           uses: actions/upload-artifact@v2
                           with:
                                   name: android-artifacts
-                                  path: android/app/build/?????ts/
+                                  path: android/app/build/*ts/
