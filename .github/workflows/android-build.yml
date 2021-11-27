@@ -5,7 +5,7 @@ defaults:
                 working-directory: android
 jobs:
         build:
-                runs-on: ubuntu-latest
+                runs-on: macos-latest
                 steps:
                         - name: Checkout
                           uses: actions/checkout@v2
@@ -18,6 +18,9 @@ jobs:
 
                         - name: Make gradlew executable
                           run: chmod +x ./gradlew
+
+                        - name: Static code analysis (lint)
+                          run: ./gradlew --no-daemon lint
 
                         - name: Decode keystore
                           run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
@@ -43,7 +46,11 @@ jobs:
                           run: ./gradlew --no-daemon test
 
                         - name: Integration tests
-                          run: ./gradlew --no-daemon connectedAndroidTest
+                          uses: reactivecircus/android-emulator-runner@v2
+                          with:
+                                  api-level: 29
+                                  script: ./gradlew --no-daemon connectedCheck
+                                  working-directory: android
 
                         - name: Upload artifacts
                           if: always()
