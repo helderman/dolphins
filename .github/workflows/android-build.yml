@@ -53,6 +53,7 @@ jobs:
                           with:
                                   api-level: ${{ matrix.api-level }}
                                   script: ./gradlew --no-daemon connectedCheck
+                                  working-directory: android
 
                         - name: Upload artifacts
                           if: always()
