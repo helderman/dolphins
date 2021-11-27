@@ -45,12 +45,15 @@ jobs:
                         - name: Unit tests
                           run: ./gradlew --no-daemon test
 
+                        - name: Ruud 1
+                          run: echo Ruud dir is ${{ github.workspace }}
+
                         - name: Integration tests
                           uses: reactivecircus/android-emulator-runner@v2
                           with:
                                   api-level: 29
                                   script: ./gradlew --no-daemon connectedCheck
-                                  working-directory: android
+                                  working-directory: ${{ github.workspace }}
 
                         - name: Upload artifacts
                           if: always()
