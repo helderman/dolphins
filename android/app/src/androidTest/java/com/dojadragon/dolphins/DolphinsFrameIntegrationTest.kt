@@ -4,15 +4,18 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.Color.*
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.ColorInt
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import java.io.ByteArrayOutputStream
-import org.junit.Assert.*
+import org.junit.Assert.assertTrue
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.math.abs
 
 // Integration tests for class DolphinsFrame
 @RunWith(AndroidJUnit4::class)
@@ -37,10 +40,10 @@ class DolphinsFrameIntegrationTest {
 
         frame.draw(canvas)
 
-        assertTrue(bitmap.sameAs(expected))
+        assertLessThan("Bitmap difference", 40000, bitmapDifference(expected, bitmap))
     }
 
-    @Ignore
+    @Ignore("For development purposes only")
     @Test
     // Run this test to (re)generate the baseline PNG file for one of the 'real' tests.
     // Filter Logcat with "BaselinePNG" to find the BASE64-encoded data. Feed the data into:
@@ -57,6 +60,13 @@ class DolphinsFrameIntegrationTest {
         Log.d("BaselinePNG", base64png(bitmap))
     }
 
+    private fun base64png(bitmap: Bitmap): String {
+        val output = ByteArrayOutputStream().apply {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
+        }
+        return Base64.encodeToString(output.toByteArray(), Base64.DEFAULT)
+    }
+
     private fun getExpected(context: Context, id: Int) =
         BitmapFactory.decodeResource(
             context.resources,
@@ -64,9 +74,19 @@ class DolphinsFrameIntegrationTest {
             BitmapFactory.Options().apply { inScaled = false }
         )
 
-    private fun base64png(bitmap: Bitmap): String {
-        val output = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
-        return Base64.encodeToString(output.toByteArray(), Base64.DEFAULT)
-    }
+    private fun assertLessThan(message: String, expected: Int, actual: Int) =
+        assertTrue("$message = $actual, expected < $expected", actual < expected)
+
+    private fun bitmapDifference(bitmap1: Bitmap, bitmap2: Bitmap): Int =
+        (toPixels(bitmap1) zip toPixels(bitmap2)).sumOf { colorDifference(it.first, it.second) }
+
+    private fun colorDifference(@ColorInt color1: Int, @ColorInt color2: Int) =
+        abs(red(color1) - red(color2)) +
+        abs(green(color1) - green(color2)) +
+        abs(blue(color1) - blue(color2))
+
+    private fun toPixels(bitmap: Bitmap) =
+        IntArray(bitmap.width * bitmap.height).apply {
+            bitmap.getPixels(this, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        }
 }
