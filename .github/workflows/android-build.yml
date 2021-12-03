@@ -1,11 +1,40 @@
-name: android-build
+name: android-workflow
 on: workflow_dispatch
 defaults:
         run:
                 working-directory: android
 jobs:
         build:
+                runs-on: ubuntu-latest
+                steps:
+                        - name: Checkout
+                          uses: actions/checkout@v2
+
+                        - name: Setup Android SDK
+                          uses: android-actions/setup-android@v2
+
+                        - name: Set JAVA_HOME for gradle
+                          run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
+
+                        - name: Make gradlew executable
+                          run: chmod +x ./gradlew
+
+                        - name: Static code analysis (lint)
+                          run: ./gradlew --no-daemon lint
+
+                        - name: Unit tests
+                          run: ./gradlew --no-daemon test
+
+                        - name: Upload artifacts
+                          if: always()
+                          uses: actions/upload-artifact@v2
+                          with:
+                                  name: android-build
+                                  path: android/app/build/*ts/
+
+        test:
                 runs-on: macos-latest
+                needs: build
                 strategy:
                         matrix:
                                 api-level: [29, 31]
@@ -28,8 +57,37 @@ jobs:
                         - name: Make gradlew executable
                           run: chmod +x ./gradlew
 
-                        - name: Static code analysis (lint)
-                          run: ./gradlew --no-daemon lint
+                        - name: Integration tests
+                          uses: reactivecircus/android-emulator-runner@v2
+                          with:
+                                  api-level: ${{ matrix.api-level }}
+                                  target: ${{ matrix.target }}
+                                  arch: ${{ matrix.arch }}
+                                  script: ./gradlew --no-daemon connectedCheck
+                                  working-directory: android
+
+                        - name: Upload artifacts
+                          if: always()
+                          uses: actions/upload-artifact@v2
+                          with:
+                                  name: android-test-${{ matrix.api-level }}
+                                  path: android/app/build/*ts/
+
+        bundle:
+                runs-on: ubuntu-latest
+                needs: build
+                steps:
+                        - name: Checkout
+                          uses: actions/checkout@v2
+
+                        - name: Setup Android SDK
+                          uses: android-actions/setup-android@v2
+
+                        - name: Set JAVA_HOME for gradle
+                          run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
+
+                        - name: Make gradlew executable
+                          run: chmod +x ./gradlew
 
                         - name: Decode keystore
                           run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
@@ -51,21 +109,9 @@ jobs:
                           env:
                                   KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
 
-                        - name: Unit tests
-                          run: ./gradlew --no-daemon test
-
-                        - name: Integration tests
-                          uses: reactivecircus/android-emulator-runner@v2
-                          with:
-                                  api-level: ${{ matrix.api-level }}
-                                  target: ${{ matrix.target }}
-                                  arch: ${{ matrix.arch }}
-                                  script: ./gradlew --no-daemon connectedCheck
-                                  working-directory: android
-
                         - name: Upload artifacts
                           if: always()
                           uses: actions/upload-artifact@v2
                           with:
-                                  name: android-artifacts
+                                  name: android-bundle
                                   path: android/app/build/*ts/
