@@ -8,7 +8,7 @@ License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 ## Android implementation (2021)
 Under construction.
 
-![Build](https://github.com/helderman/dolphins/actions/workflows/android-build.yml/badge.svg)
+![Build](https://github.com/helderman/dolphins/actions/workflows/android-workflow.yml/badge.svg)
 
 You can find the privacy policy [here](android/privacy/index.md).
 
