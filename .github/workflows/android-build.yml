@@ -8,7 +8,13 @@ jobs:
                 runs-on: macos-latest
                 strategy:
                         matrix:
-                                api-level: [16, 29, 31]
+                                api-level: [29, 31]
+                                target: [google_apis]
+                                arch: [x86_64]
+                                include:
+                                        - api-level: 16
+                                          target: google_apis
+                                          arch: x86
                 steps:
                         - name: Checkout
                           uses: actions/checkout@v2
@@ -52,7 +58,8 @@ jobs:
                           uses: reactivecircus/android-emulator-runner@v2
                           with:
                                   api-level: ${{ matrix.api-level }}
-                                  target: google_apis
+                                  target: ${{ matrix.target }}
+                                  arch: ${{ matrix.arch }}
                                   script: ./gradlew --no-daemon connectedCheck
                                   working-directory: android
 
