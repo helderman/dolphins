@@ -25,6 +25,26 @@ jobs:
                         - name: Unit tests
                           run: ./gradlew --no-daemon test
 
+                        - name: Decode keystore
+                          run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
+                          env:
+                                  KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
+
+                        - name: Create bundle
+                          run: ./gradlew --no-daemon bundleRelease
+                          env:
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
+                                  KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+                                  KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+                                  KEY_ALIAS: "upload"
+
+                        - name: Delete keystore
+                          if: always()
+                          run: rm -f "$KEYSTORE_FILENAME"
+                          env:
+                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
+
                         - name: Upload artifacts
                           if: always()
                           uses: actions/upload-artifact@v2
@@ -34,17 +54,13 @@ jobs:
 
         test:
                 runs-on: macos-latest
-                needs: build
                 strategy:
                         matrix:
                                 api-level: [29, 31]
                                 target: [google_apis]
                                 arch: [x86_64]
                                 include:
-                                        - api-level: 15
-                                          target: google_apis
-                                          arch: x86
-                                        - api-level: 16
+                                        - api-level: [15, 16]
                                           target: google_apis
                                           arch: x86
                 steps:
@@ -74,47 +90,4 @@ jobs:
                           uses: actions/upload-artifact@v2
                           with:
                                   name: android-test-${{ matrix.api-level }}
-                                  path: android/app/build/*ts/
-
-        bundle:
-                runs-on: ubuntu-latest
-                needs: build
-                steps:
-                        - name: Checkout
-                          uses: actions/checkout@v2
-
-                        - name: Setup Android SDK
-                          uses: android-actions/setup-android@v2
-
-                        - name: Set JAVA_HOME for gradle
-                          run: echo "JAVA_HOME=$JAVA_HOME_11_X64" >> $GITHUB_ENV
-
-                        - name: Make gradlew executable
-                          run: chmod +x ./gradlew
-
-                        - name: Decode keystore
-                          run: base64 -d <<< "$KEYSTORE" > "$KEYSTORE_FILENAME"
-                          env:
-                                  KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
-
-                        - name: Build
-                          run: ./gradlew --no-daemon bundleRelease
-                          env:
-                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
-                                  KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-                                  KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-                                  KEY_ALIAS: "upload"
-
-                        - name: Delete keystore
-                          if: always()
-                          run: rm -f "$KEYSTORE_FILENAME"
-                          env:
-                                  KEYSTORE_FILENAME: ${{ runner.temp }}/android-upload.jks
-
-                        - name: Upload artifacts
-                          if: always()
-                          uses: actions/upload-artifact@v2
-                          with:
-                                  name: android-bundle
-                                  path: android/app/build/*ts/
+                                  path: android/app/build/reports/
