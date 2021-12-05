@@ -1,17 +1,13 @@
 package com.dojadragon.dolphins
 
 import android.content.Context
-import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
 // Unused, but makes a nice example
 class DolphinsView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-    private val drawer = DolphinsDrawer(
-        DolphinsFrame(SystemClock::elapsedRealtime),
-        DolphinsCanvasFactory(context)
-    )
+    private val drawer = DolphinsCompositionRoot.createDrawer(context)
 
     init {
         holder.addCallback(this)

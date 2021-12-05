@@ -2,17 +2,13 @@ package com.dojadragon.dolphins
 
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 
 // Live Wallpaper
 class DolphinsService : WallpaperService() {
     override fun onCreateEngine(): Engine {
-        return DolphinsEngine(DolphinsDrawer(
-            DolphinsFrame(SystemClock::elapsedRealtime),
-            DolphinsCanvasFactory(this)
-        ))
+        return DolphinsEngine(DolphinsCompositionRoot.createDrawer(this))
     }
 
     private inner class DolphinsEngine(private val drawer: DolphinsDrawer) : Engine() {
