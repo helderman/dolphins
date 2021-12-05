@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 
 // Creates a wrapper around a Canvas
 class DolphinsCanvasFactory(private val context: Context) {
-    fun Create(canvas: Canvas): IDolphinsCanvas = DolphinsCanvas(canvas)
+    fun create(canvas: Canvas): IDolphinsCanvas = DolphinsCanvas(canvas)
 
     private inner class DolphinsCanvas(private val canvas: Canvas) : IDolphinsCanvas {
         @ColorInt

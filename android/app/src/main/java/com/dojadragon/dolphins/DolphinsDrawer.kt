@@ -11,7 +11,7 @@ class DolphinsDrawer(private val frame: DolphinsFrame, private val canvasFactory
             canvas = surfaceHolder.lockCanvas()
             if (canvas != null) {
                 canvas.save()
-                frame.draw(canvasFactory.Create(canvas))
+                frame.draw(canvasFactory.create(canvas))
             }
         } finally {
             if (canvas != null) {
