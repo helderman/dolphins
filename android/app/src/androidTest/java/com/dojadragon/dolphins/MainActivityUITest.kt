@@ -57,27 +57,20 @@ class MainActivityUITest {
     }
 
     @Test
-    fun setWallpaperHome() {
-        val appContext = ApplicationProvider.getApplicationContext<Context>()
-        val wallpaperManager = WallpaperManager.getInstance(appContext)
-
-        assertNoLiveWallpaper(wallpaperManager.wallpaperInfo)
-
-        findAndClickWidget("Button", "Set wallpaper")
-        findAndClickWidget("TextView", "Home screen")
-
-        assertLiveWallpaper(wallpaperManager.wallpaperInfo)
-    }
+    fun setWallpaperHome() = setWallpaper("Home screen")
 
     @Test
-    fun setWallpaperHomeAndLock() {
+    fun setWallpaperHomeAndLock() = setWallpaper("Home screen and lock screen")
+
+    private fun setWallpaper(captionOfChoice: String) {
         val appContext = ApplicationProvider.getApplicationContext<Context>()
         val wallpaperManager = WallpaperManager.getInstance(appContext)
 
         assertNoLiveWallpaper(wallpaperManager.wallpaperInfo)
 
         findAndClickWidget("Button", "Set wallpaper")
-        findAndClickWidget("TextView", "Home screen and lock screen")
+        findAndClickWidget("TextView", captionOfChoice)
+        device.waitForIdle()
 
         assertLiveWallpaper(wallpaperManager.wallpaperInfo)
     }
