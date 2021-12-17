@@ -4,6 +4,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 // Unit tests for class DolphinsFrame
+
 class DolphinsFrameTest {
 
     @Test
@@ -18,7 +19,7 @@ class DolphinsFrameTest {
     private fun draw_Xs(time: Long, filename: String) {
         val expected = getTxt(filename)
         val canvas = DolphinsCanvasMock()
-        val frame = DolphinsFrame { time }
+        val frame = DolphinsFrame(DolphinsIndividualFactory(), DolphinsVertexFactory()) { time }
 
         frame.draw(canvas)
 

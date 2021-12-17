@@ -18,6 +18,7 @@ import org.junit.runner.RunWith
 import kotlin.math.abs
 
 // Integration tests for class DolphinsFrame
+
 @RunWith(AndroidJUnit4::class)
 class DolphinsFrameIntegrationTest {
 
@@ -36,7 +37,7 @@ class DolphinsFrameIntegrationTest {
         val expected = getExpected(appContext, resourceId)
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
-        val frame = DolphinsFrame { time }
+        val frame = DolphinsFrame(DolphinsIndividualFactory(), DolphinsVertexFactory()) { time }
 
         frame.draw(canvas)
 
@@ -53,7 +54,7 @@ class DolphinsFrameIntegrationTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
-        val frame = DolphinsFrame { 1000L }
+        val frame = DolphinsFrame(DolphinsIndividualFactory(), DolphinsVertexFactory()) { 1000L }
 
         frame.draw(canvas)
 
