@@ -8,7 +8,8 @@ import kotlin.math.sqrt
 // Drawing a frame of the animation
 class DolphinsFrame(
     private val individualFactory: DolphinsIndividualFactory,
-    private val vertexFactory: DolphinsVertexFactory,
+    private val vertexFactory1: DolphinsVertexFactory,
+    private val vertexFactory2: DolphinsVertexFactory,
     private val clock: () -> Long
 ) {
     fun draw(canvas: IDolphinsCanvas) {
@@ -44,17 +45,17 @@ class DolphinsFrame(
     private fun IDolphinsCanvas.drawTailFin(individual: IDolphinsIndividual) {
         for (i in 0..8) {
             val y = 12f * (1.0 - sin(0.14 * abs(i - 5.75))).toFloat()
-            val origin = vertexFactory.create(individual, i - 61f, 0f)
-            this.drawStadium(origin, vertexFactory.create(individual, -63f, y), 2f)
-            this.drawStadium(origin, vertexFactory.create(individual, -63f, -y), 2f)
+            val origin = vertexFactory1.create(individual, i - 61f, 0f)
+            this.drawStadium(origin, vertexFactory2.create(individual, -63f, y), 2f)
+            this.drawStadium(origin, vertexFactory2.create(individual, -63f, -y), 2f)
         }
     }
 
     private fun IDolphinsCanvas.drawDorsalFin(individual: IDolphinsIndividual) {
         for (i in 0..11) {
             this.drawStadium(
-                vertexFactory.create(individual, i - 12f, 0f),
-                vertexFactory.create(individual, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
+                vertexFactory1.create(individual, i - 12f, 0f),
+                vertexFactory2.create(individual, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
                 2f
             )
         }
@@ -63,16 +64,16 @@ class DolphinsFrame(
     private fun IDolphinsCanvas.drawFlippers(individual: IDolphinsIndividual) {
         for (i in 0..8) {
             val z = 11f * cos(0.07 * i).toFloat()
-            val origin = vertexFactory.create(individual, i + 9f, 0f)
-            this.drawStadium(origin, vertexFactory.create(individual, i - 6f, z, z), 2f)
-            this.drawStadium(origin, vertexFactory.create(individual, i - 6f, -z, z), 2f)
+            val origin = vertexFactory1.create(individual, i + 9f, 0f)
+            this.drawStadium(origin, vertexFactory2.create(individual, i - 6f, z, z), 2f)
+            this.drawStadium(origin, vertexFactory2.create(individual, i - 6f, -z, z), 2f)
         }
     }
 
     private fun IDolphinsCanvas.drawBody(individual: IDolphinsIndividual) {
         for (i in 0..90) {
             this.drawSphere(
-                vertexFactory.create(individual, i - 61f, 0f),
+                vertexFactory1.create(individual, i - 61f, 0f),
                 10f - 8f * cos(0.7f * sqrt(91f - i) - 0.63f)
             )
         }

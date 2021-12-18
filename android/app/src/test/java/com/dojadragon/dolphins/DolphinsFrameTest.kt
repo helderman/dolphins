@@ -19,7 +19,10 @@ class DolphinsFrameTest {
     private fun draw_Xs(time: Long, filename: String) {
         val expected = getTxt(filename)
         val canvas = DolphinsCanvasMock()
-        val frame = DolphinsFrame(DolphinsIndividualFactory(), DolphinsVertexFactory()) { time }
+        val frame = DolphinsFrame(
+            DolphinsIndividualFactory(),
+            DolphinsVertexFactory(),
+            DolphinsVertexFactory()) { time }
 
         frame.draw(canvas)
 

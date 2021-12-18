@@ -11,6 +11,7 @@ object DolphinsCompositionRoot {
             DolphinsFrame(
                 DolphinsIndividualFactory(),
                 DolphinsVertexFactory(),
+                DolphinsVertexFactory(),
                 SystemClock::elapsedRealtime),
             DolphinsCanvasFactory(context)
         )

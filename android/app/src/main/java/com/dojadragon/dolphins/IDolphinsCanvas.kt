@@ -1,6 +1,8 @@
 package com.dojadragon.dolphins
 
-// Canvas abstraction
+// Canvas abstraction.
+// Need this to be able to mock Canvas in unit tests.
+
 interface IDolphinsCanvas {
     fun center()
     fun drawBackground()

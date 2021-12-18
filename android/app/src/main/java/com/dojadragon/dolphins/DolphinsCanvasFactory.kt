@@ -8,11 +8,21 @@ import android.graphics.Shader
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 
-// Creates a wrapper around a Canvas
-class DolphinsCanvasFactory(private val context: Context) {
-    fun create(canvas: Canvas): IDolphinsCanvas = DolphinsCanvas(canvas)
+// Creates a wrapper around a Canvas (so that it can be mocked in unit tests).
+// This implementation is extremely economic:
+// it overwrites and returns the same (mutable) instance of DolphinsCanvas over and over again.
+// Generally this is bad practice, but it helps make the app more efficient (by avoiding GC).
 
-    private inner class DolphinsCanvas(private val canvas: Canvas) : IDolphinsCanvas {
+class DolphinsCanvasFactory(private val context: Context) {
+    fun create(canvas: Canvas): IDolphinsCanvas = dolphinsCanvas.apply {
+        this.canvas = canvas
+    }
+
+    private val dolphinsCanvas = DolphinsCanvas()
+
+    private inner class DolphinsCanvas : IDolphinsCanvas {
+        lateinit var canvas: Canvas
+
         @ColorInt
         private val backgroundTop = ContextCompat.getColor(context, R.color.dolphins_background_top)
         @ColorInt

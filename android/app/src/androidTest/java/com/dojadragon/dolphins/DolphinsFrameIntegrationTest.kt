@@ -37,7 +37,10 @@ class DolphinsFrameIntegrationTest {
         val expected = getExpected(appContext, resourceId)
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
-        val frame = DolphinsFrame(DolphinsIndividualFactory(), DolphinsVertexFactory()) { time }
+        val frame = DolphinsFrame(
+            DolphinsIndividualFactory(),
+            DolphinsVertexFactory(),
+            DolphinsVertexFactory()) { time }
 
         frame.draw(canvas)
 
@@ -54,7 +57,10 @@ class DolphinsFrameIntegrationTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
-        val frame = DolphinsFrame(DolphinsIndividualFactory(), DolphinsVertexFactory()) { 1000L }
+        val frame = DolphinsFrame(
+            DolphinsIndividualFactory(),
+            DolphinsVertexFactory(),
+            DolphinsVertexFactory()) { 1000L }
 
         frame.draw(canvas)
 
