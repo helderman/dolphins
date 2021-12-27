@@ -90,6 +90,6 @@ class MainActivityUITest {
 
     private fun assertLiveWallpaper(wallpaperInfo: WallpaperInfo?) {
         assertNotNull("Live wallpaper", wallpaperInfo)
-        assertEquals("com.dojadragon.dolphins.DolphinsService", wallpaperInfo!!.serviceName)
+        assertEquals(DolphinsWallpaperService::class.qualifiedName, wallpaperInfo!!.serviceName)
     }
 }
