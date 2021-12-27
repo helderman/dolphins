@@ -1,7 +1,5 @@
 package com.dojadragon.dolphins
 
-import android.os.Handler
-import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 
@@ -9,12 +7,17 @@ import android.view.SurfaceHolder
 
 class DolphinsWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine {
-        return DolphinsEngine(DolphinsCompositionRoot.createFrame(this))
+        return DolphinsEngine(
+            DolphinsCompositionRoot.createAnimationFactory(),
+            DolphinsCompositionRoot.createFrame(this)
+        )
     }
 
-    private inner class DolphinsEngine(private val frame: DolphinsFrame) : Engine() {
-        private val handler = Handler(Looper.getMainLooper())
-        private val runnable = Runnable { step(isVisible) }
+    private inner class DolphinsEngine(
+        animationFactory: DolphinsAnimationFactory,
+        private val frame: DolphinsFrame
+    ) : Engine() {
+        private val animation = animationFactory.create { step(isVisible) }
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
@@ -31,14 +34,11 @@ class DolphinsWallpaperService : WallpaperService() {
             step(false)
         }
 
-        private fun step(willDraw: Boolean) {
-            if (willDraw) {
+        private fun step(visible: Boolean) {
+            if (visible) {
                 frame.drawFrame(surfaceHolder)
             }
-            handler.removeCallbacks(runnable)
-            if (willDraw) {
-                handler.postDelayed(runnable, 20)
-            }
+            animation.animate(visible)
         }
     }
 }

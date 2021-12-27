@@ -6,6 +6,9 @@ import android.os.SystemClock
 // Composition root (pure DI)
 
 object DolphinsCompositionRoot {
+    fun createAnimationFactory() =
+        DolphinsAnimationFactory()
+
     fun createFrame(context: Context) =
         DolphinsFrame(
             DolphinsPainter(
