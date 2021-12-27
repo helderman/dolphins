@@ -7,7 +7,7 @@ import android.view.SurfaceView
 
 // Unused, but makes a nice example
 class DolphinsView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-    private val drawer = DolphinsCompositionRoot.createDrawer(context)
+    private val drawer = DolphinsCompositionRoot.createFrame(context)
 
     init {
         holder.addCallback(this)

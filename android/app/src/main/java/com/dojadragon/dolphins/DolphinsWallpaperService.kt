@@ -9,10 +9,10 @@ import android.view.SurfaceHolder
 
 class DolphinsWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine {
-        return DolphinsEngine(DolphinsCompositionRoot.createDrawer(this))
+        return DolphinsEngine(DolphinsCompositionRoot.createFrame(this))
     }
 
-    private inner class DolphinsEngine(private val drawer: DolphinsDrawer) : Engine() {
+    private inner class DolphinsEngine(private val frame: DolphinsFrame) : Engine() {
         private val handler = Handler(Looper.getMainLooper())
         private val runnable = Runnable { step() }
 
@@ -38,7 +38,7 @@ class DolphinsWallpaperService : WallpaperService() {
 
         private fun step() {
             if (willDraw) {
-                drawer.drawFrame(surfaceHolder)
+                frame.drawFrame(surfaceHolder)
             }
             handler.removeCallbacks(runnable)
             if (willDraw) {

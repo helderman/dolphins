@@ -3,8 +3,10 @@ package com.dojadragon.dolphins
 import android.graphics.Canvas
 import android.view.SurfaceHolder
 
-// Animation; can be used both in a Live Wallpaper and in a regular SurfaceView
-class DolphinsDrawer(private val painter: DolphinsPainter, private val canvasFactory: DolphinsCanvasFactory) {
+// Draw a single frame for the animation on canvas
+// Can be used both in a Live Wallpaper and in a regular SurfaceView
+
+class DolphinsFrame(private val painter: DolphinsPainter, private val canvasFactory: DolphinsCanvasFactory) {
     fun drawFrame(surfaceHolder : SurfaceHolder) {
         var canvas : Canvas? = null
         try {
