@@ -8,7 +8,7 @@ import android.os.SystemClock
 object DolphinsCompositionRoot {
     fun createDrawer(context: Context) =
         DolphinsDrawer(
-            DolphinsFrame(
+            DolphinsPainter(
                 DolphinsIndividualFactory(),
                 DolphinsVertexFactory(),
                 DolphinsVertexFactory(),

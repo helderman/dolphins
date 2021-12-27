@@ -24,7 +24,7 @@ class DolphinsIndividualFactory {
 
     private val individual = DolphinsIndividual()
 
-    private inner class DolphinsIndividual : IDolphinsIndividual {
+    private class DolphinsIndividual : IDolphinsIndividual {
         override var camX = 0f
         override var camY = 0f
         override var dolphinX = 0f

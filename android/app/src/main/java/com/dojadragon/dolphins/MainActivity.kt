@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         get() =
             Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).also {
                 it.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                    ComponentName(this, DolphinsService::class.java))
+                    ComponentName(this, DolphinsWallpaperService::class.java))
             }
 
     private val intentListWallpapers: Intent

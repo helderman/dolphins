@@ -5,7 +5,7 @@ import org.junit.Test
 
 // Unit tests for class DolphinsFrame
 
-class DolphinsFrameTest {
+class DolphinsPainterTest {
 
     @Test
     // Captures drawing actions at time = 0 ms
@@ -19,7 +19,7 @@ class DolphinsFrameTest {
     private fun draw_Xs(time: Long, filename: String) {
         val expected = getTxt(filename)
         val canvas = DolphinsCanvasMock()
-        val frame = DolphinsFrame(
+        val frame = DolphinsPainter(
             DolphinsIndividualFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { time }

@@ -20,7 +20,7 @@ import kotlin.math.abs
 // Integration tests for class DolphinsFrame
 
 @RunWith(AndroidJUnit4::class)
-class DolphinsFrameIntegrationTest {
+class DolphinsPainterIntegrationTest {
 
     @Test
     // Captures bitmap at time = 0 ms
@@ -37,7 +37,7 @@ class DolphinsFrameIntegrationTest {
         val expected = getExpected(appContext, resourceId)
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
-        val frame = DolphinsFrame(
+        val frame = DolphinsPainter(
             DolphinsIndividualFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { time }
@@ -57,7 +57,7 @@ class DolphinsFrameIntegrationTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
-        val frame = DolphinsFrame(
+        val frame = DolphinsPainter(
             DolphinsIndividualFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { 1000L }

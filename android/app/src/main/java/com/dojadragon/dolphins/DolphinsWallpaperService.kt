@@ -6,7 +6,8 @@ import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 
 // Live Wallpaper
-class DolphinsService : WallpaperService() {
+
+class DolphinsWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine {
         return DolphinsEngine(DolphinsCompositionRoot.createDrawer(this))
     }
