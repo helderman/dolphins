@@ -14,29 +14,24 @@ class DolphinsWallpaperService : WallpaperService() {
 
     private inner class DolphinsEngine(private val frame: DolphinsFrame) : Engine() {
         private val handler = Handler(Looper.getMainLooper())
-        private val runnable = Runnable { step() }
-
-        private var willDraw = false
+        private val runnable = Runnable { step(isVisible) }
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
-            willDraw = visible
-            step()
+            step(visible)
         }
 
         override fun onSurfaceDestroyed(holder: SurfaceHolder?) {
             super.onSurfaceDestroyed(holder)
-            willDraw = false
-            step()
+            step(false)
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            willDraw = false
-            step()
+            step(false)
         }
 
-        private fun step() {
+        private fun step(willDraw: Boolean) {
             if (willDraw) {
                 frame.drawFrame(surfaceHolder)
             }

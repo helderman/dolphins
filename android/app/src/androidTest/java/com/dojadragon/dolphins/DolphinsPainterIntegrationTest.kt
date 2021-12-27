@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.math.abs
 
-// Integration tests for class DolphinsFrame
+// Integration tests for class DolphinsPainter
 
 @RunWith(AndroidJUnit4::class)
 class DolphinsPainterIntegrationTest {

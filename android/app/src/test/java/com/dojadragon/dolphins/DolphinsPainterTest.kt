@@ -3,7 +3,7 @@ package com.dojadragon.dolphins
 import org.junit.Assert.*
 import org.junit.Test
 
-// Unit tests for class DolphinsFrame
+// Unit tests for class DolphinsPainter
 
 class DolphinsPainterTest {
 
