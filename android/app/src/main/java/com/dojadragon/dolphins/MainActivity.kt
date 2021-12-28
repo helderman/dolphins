@@ -14,24 +14,6 @@ class MainActivity : AppCompatActivity() {
 
         startActivity(intentActivateWallpaperWithFallback)
         finish()
-
-        /***
-        setContentView(R.layout.activity_main)
-
-        findViewById<Button>(R.id.btnActivate).setOnClickListener {
-            startActivity(intentActivateWallpaperWithFallback)
-            finish()
-        }
-
-        findViewById<Button>(R.id.btnList).setOnClickListener {
-            startActivity(intentListWallpapers)
-            finish()
-        }
-
-        findViewById<Button>(R.id.btnLater).setOnClickListener {
-            finish()
-        }
-         ***/
     }
 
     private val intentActivateWallpaperWithFallback: Intent
