@@ -44,7 +44,7 @@ class DolphinsPainterIntegrationTest {
 
         frame.draw(canvas)
 
-        assertMax("Bitmap difference", 60000, bitmapDifference(expected, bitmap))
+        assertMax("Bitmap difference", 70000, bitmapDifference(expected, bitmap))
     }
 
     @Ignore("For development purposes only")
