@@ -12,7 +12,7 @@ object DolphinsCompositionRoot {
     fun createFrame(context: Context) =
         DolphinsFrame(
             DolphinsPainter(
-                DolphinsIndividualFactory(),
+                DolphinsOrientationFactory(),
                 DolphinsVertexFactory(),
                 DolphinsVertexFactory(),
                 SystemClock::elapsedRealtime),

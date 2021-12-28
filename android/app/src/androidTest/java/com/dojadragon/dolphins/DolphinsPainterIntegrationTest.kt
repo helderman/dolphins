@@ -38,7 +38,7 @@ class DolphinsPainterIntegrationTest {
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
         val frame = DolphinsPainter(
-            DolphinsIndividualFactory(),
+            DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { time }
 
@@ -58,7 +58,7 @@ class DolphinsPainterIntegrationTest {
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
         val frame = DolphinsPainter(
-            DolphinsIndividualFactory(),
+            DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { 1000L }
 

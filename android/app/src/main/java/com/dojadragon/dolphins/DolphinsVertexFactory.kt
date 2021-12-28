@@ -9,13 +9,13 @@ import kotlin.math.sin
 // This implies that if you want to keep 2 vertices at the same time, you need 2 factories.
 
 class DolphinsVertexFactory {
-    fun create(individual: IDolphinsIndividual, x: Float, y: Float, z: Float = 0f): IDolphinsVertex {
-        val totalX = individual.dolphinX + x
-        val totalY = individual.dolphinY + y
+    fun create(orientation: IDolphinsOrientation, x: Float, y: Float, z: Float = 0f): IDolphinsVertex {
+        val totalX = orientation.dolphinX + x
+        val totalY = orientation.dolphinY + y
         return vertex.apply {
-            distance = 150f + totalX * individual.camX + totalY * individual.camY
-            canvasX = (totalX * individual.camY - totalY * individual.camX) / distance
-            canvasY = (z + individual.dolphinZ + 20f * sin(individual.wave + 0.017 * x).toFloat()) / distance
+            distance = 150f + totalX * orientation.camX + totalY * orientation.camY
+            canvasX = (totalX * orientation.camY - totalY * orientation.camX) / distance
+            canvasY = (z + orientation.dolphinZ + 20f * sin(orientation.wave + 0.017 * x).toFloat()) / distance
         }
     }
 

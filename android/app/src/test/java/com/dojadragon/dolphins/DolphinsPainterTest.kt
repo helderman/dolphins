@@ -20,7 +20,7 @@ class DolphinsPainterTest {
         val expected = getTxt(filename)
         val canvas = DolphinsCanvasMock()
         val frame = DolphinsPainter(
-            DolphinsIndividualFactory(),
+            DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { time }
 

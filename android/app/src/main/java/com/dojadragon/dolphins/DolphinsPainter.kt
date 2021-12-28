@@ -8,7 +8,7 @@ import kotlin.math.sqrt
 // Painting 3D shapes that resemble a group of dolphins
 
 class DolphinsPainter(
-    private val individualFactory: DolphinsIndividualFactory,
+    private val orientationFactory: DolphinsOrientationFactory,
     private val vertexFactory1: DolphinsVertexFactory,
     private val vertexFactory2: DolphinsVertexFactory,
     private val clock: () -> Long
@@ -25,7 +25,7 @@ class DolphinsPainter(
         val camX = cos(0.0002 * time).toFloat()
         val camY = sin(0.0002 * time).toFloat()
         for (i in -1..1) {
-            drawDolphin(individualFactory.create(
+            drawDolphin(orientationFactory.create(
                 camX,
                 camY,
                 20f * i,
@@ -36,45 +36,45 @@ class DolphinsPainter(
         }
     }
 
-    private fun IDolphinsCanvas.drawDolphin(individual: IDolphinsIndividual) {
-        drawTailFin(individual)
-        drawDorsalFin(individual)
-        drawFlippers(individual)
-        drawBody(individual)
+    private fun IDolphinsCanvas.drawDolphin(orientation: IDolphinsOrientation) {
+        drawTailFin(orientation)
+        drawDorsalFin(orientation)
+        drawFlippers(orientation)
+        drawBody(orientation)
     }
 
-    private fun IDolphinsCanvas.drawTailFin(individual: IDolphinsIndividual) {
+    private fun IDolphinsCanvas.drawTailFin(orientation: IDolphinsOrientation) {
         for (i in 0..8) {
             val y = 12f * (1.0 - sin(0.14 * abs(i - 5.75))).toFloat()
-            val origin = vertexFactory1.create(individual, i - 61f, 0f)
-            drawStadium(origin, vertexFactory2.create(individual, -63f, y), 2f)
-            drawStadium(origin, vertexFactory2.create(individual, -63f, -y), 2f)
+            val origin = vertexFactory1.create(orientation, i - 61f, 0f)
+            drawStadium(origin, vertexFactory2.create(orientation, -63f, y), 2f)
+            drawStadium(origin, vertexFactory2.create(orientation, -63f, -y), 2f)
         }
     }
 
-    private fun IDolphinsCanvas.drawDorsalFin(individual: IDolphinsIndividual) {
+    private fun IDolphinsCanvas.drawDorsalFin(orientation: IDolphinsOrientation) {
         for (i in 0..11) {
             drawStadium(
-                vertexFactory1.create(individual, i - 12f, 0f),
-                vertexFactory2.create(individual, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
+                vertexFactory1.create(orientation, i - 12f, 0f),
+                vertexFactory2.create(orientation, i - 27f, 0f, -12f * cos(0.07 * (i - 2.0)).toFloat()),
                 2f
             )
         }
     }
 
-    private fun IDolphinsCanvas.drawFlippers(individual: IDolphinsIndividual) {
+    private fun IDolphinsCanvas.drawFlippers(orientation: IDolphinsOrientation) {
         for (i in 0..8) {
             val z = 11f * cos(0.07 * i).toFloat()
-            val origin = vertexFactory1.create(individual, i + 9f, 0f)
-            drawStadium(origin, vertexFactory2.create(individual, i - 6f, z, z), 2f)
-            drawStadium(origin, vertexFactory2.create(individual, i - 6f, -z, z), 2f)
+            val origin = vertexFactory1.create(orientation, i + 9f, 0f)
+            drawStadium(origin, vertexFactory2.create(orientation, i - 6f, z, z), 2f)
+            drawStadium(origin, vertexFactory2.create(orientation, i - 6f, -z, z), 2f)
         }
     }
 
-    private fun IDolphinsCanvas.drawBody(individual: IDolphinsIndividual) {
+    private fun IDolphinsCanvas.drawBody(orientation: IDolphinsOrientation) {
         for (i in 0..90) {
             drawSphere(
-                vertexFactory1.create(individual, i - 61f, 0f),
+                vertexFactory1.create(orientation, i - 61f, 0f),
                 10f - 8f * cos(0.7f * sqrt(91f - i) - 0.63f)
             )
         }

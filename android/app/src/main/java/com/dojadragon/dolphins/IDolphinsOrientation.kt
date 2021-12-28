@@ -1,6 +1,8 @@
 package com.dojadragon.dolphins
 
-interface IDolphinsIndividual {
+// Object that describes the current state of a single dolphin.
+
+interface IDolphinsOrientation {
     val camX: Float
     val camY: Float
     val dolphinX: Float
