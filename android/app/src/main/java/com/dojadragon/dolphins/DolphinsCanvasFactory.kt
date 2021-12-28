@@ -23,13 +23,7 @@ class DolphinsCanvasFactory(private val context: Context) {
     private inner class DolphinsCanvas : IDolphinsCanvas {
         lateinit var canvas: Canvas
 
-        @ColorInt
-        private val backgroundTop = ContextCompat.getColor(context, R.color.dolphins_background_top)
-        @ColorInt
-        private val backgroundBottom = ContextCompat.getColor(context, R.color.dolphins_background_bottom)
-
         private val paint = Paint().apply {
-            color = ContextCompat.getColor(context, R.color.dolphins_body)
             isAntiAlias = true
             strokeCap = Paint.Cap.ROUND
             strokeJoin = Paint.Join.ROUND
@@ -41,9 +35,12 @@ class DolphinsCanvasFactory(private val context: Context) {
         }
 
         override fun drawBackground() {
+            paint.color = ContextCompat.getColor(context, R.color.dolphins_body)
             paint.shader = LinearGradient(
                 0f, 0f, 0f, 1f * canvas.height,
-                backgroundTop, backgroundBottom, Shader.TileMode.CLAMP
+                ContextCompat.getColor(context, R.color.dolphins_background_top),
+                ContextCompat.getColor(context, R.color.dolphins_background_bottom),
+                Shader.TileMode.CLAMP
             )
             canvas.drawPaint(paint)
             paint.shader = null
