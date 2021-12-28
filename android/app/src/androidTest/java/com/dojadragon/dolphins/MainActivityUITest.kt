@@ -4,6 +4,7 @@ import android.app.WallpaperInfo
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
+import android.os.SystemClock.sleep
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
@@ -62,34 +63,33 @@ class MainActivityUITest {
     @Test
     fun setWallpaperHomeAndLock() = setWallpaper("Home screen and lock screen")
 
+    // Arrange, Act, Assert
     private fun setWallpaper(captionOfChoice: String) {
         val appContext = ApplicationProvider.getApplicationContext<Context>()
         val wallpaperManager = WallpaperManager.getInstance(appContext)
-
-        assertNoLiveWallpaper(wallpaperManager.wallpaperInfo)
+        assertNull("Live wallpaper", wallpaperManager.wallpaperInfo)
 
         findAndClickWidget("Button", "Set wallpaper")
         findAndClickWidget("TextView", captionOfChoice)
-        device.waitForIdle()
 
-        assertLiveWallpaper(wallpaperManager.wallpaperInfo)
+        assertEquals(
+            DolphinsWallpaperService::class.qualifiedName,
+            findWallpaperInfo(wallpaperManager).serviceName
+        )
     }
 
     private fun findAndClickWidget(type: String, caption: String) {
-        device.findObject(
-            UiSelector().className("android.widget.$type").text(caption)
-        ).also {
-            assertTrue("$type '$caption' expected", it.exists())
-            it.click()
-        }
+        val condition = By.clazz("android.widget.$type").text(caption)
+        val widget = device.wait(Until.findObject(condition), LAUNCH_TIMEOUT)
+        assertNotNull("$type '$caption' expected", widget)
+        widget.click()
     }
 
-    private fun assertNoLiveWallpaper(wallpaperInfo: WallpaperInfo?) {
-        assertNull("Live wallpaper", wallpaperInfo)
-    }
-
-    private fun assertLiveWallpaper(wallpaperInfo: WallpaperInfo?) {
+    private fun findWallpaperInfo(wallpaperManager: WallpaperManager): WallpaperInfo {
+        sleep(LAUNCH_TIMEOUT)
+        device.waitForIdle()
+        val wallpaperInfo = wallpaperManager.wallpaperInfo
         assertNotNull("Live wallpaper", wallpaperInfo)
-        assertEquals(DolphinsWallpaperService::class.qualifiedName, wallpaperInfo!!.serviceName)
+        return wallpaperInfo
     }
 }
