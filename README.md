@@ -1,6 +1,6 @@
 # Dolphins
 Relaxing animation,
-using a simple 3D-model of something that resembles a dolphin,
+using a simple 3D model of something that resembles a dolphin,
 based entirely on mathematical functions.
 
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
