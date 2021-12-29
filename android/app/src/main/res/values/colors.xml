@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="dolphins_background_top">#FFFFFFFF</color>
+    <color name="dolphins_background_top">#FF8BC1FA</color>
     <color name="dolphins_background_bottom">#FF135B8D</color>
     <color name="dolphins_body">#FF135B8D</color>
 </resources>
