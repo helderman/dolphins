@@ -43,6 +43,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    lintOptions {
+        abortOnError true
+        checkAllWarnings true
+        warningsAsErrors true
+        informational 'UnsupportedChromeOsHardware'
+    }
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
