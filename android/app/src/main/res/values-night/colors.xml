@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="dolphins_background_top">#FF135B8D</color>
-    <color name="dolphins_background_bottom">#FF000000</color>
-    <color name="dolphins_body">#FF000000</color>
+    <color name="dolphins_background_bottom">#FF0A1F30</color>
+    <color name="dolphins_body">#FF0A1F30</color>
 </resources>
