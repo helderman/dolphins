@@ -1,8 +1,8 @@
 # Privacy Policy
 This privacy policy applies to:
 
-- "The app": Dolphins Live Wallpaper
-- "The owner": Ruud Helderman \<<r.helderman@hccnet.nl>\>
+- "The app": 3 Dolphins Live Wallpaper
+- "The owner": Ruud Helderman <r.helderman@hccnet.nl>
 - "You": any person downloading/installing/using the app
 
 The policy is simple:
