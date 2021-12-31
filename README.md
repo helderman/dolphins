@@ -6,11 +6,13 @@ based entirely on mathematical functions.
 License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ## Android implementation (2021)
-Under construction.
 
 ![Build](https://github.com/helderman/dolphins/actions/workflows/android-workflow.yml/badge.svg)
 
-You can find the privacy policy [here](android/privacy/index.md).
+Under review on Google Play.
+
+- [Developer page](https://play.google.com/store/apps/dev?id=8002222045237401005)
+- [Privacy policy](android/privacy/index.md)
 
 ## HTML5 implementation (2016)
 You can see it in action here:
