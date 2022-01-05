@@ -14,44 +14,47 @@ import androidx.core.content.ContextCompat
 // Generally this is bad practice, but it helps make the app more efficient (by avoiding GC).
 
 class DolphinsCanvasFactory(private val context: Context) {
-    fun create(canvas: Canvas): IDolphinsCanvas = dolphinsCanvas.apply {
-        this.canvas = canvas
+    fun create(canvas: Canvas, action: (IDolphinsCanvas) -> Unit) {
+        dolphinsCanvas.let {
+            it.canvas = canvas
+            action(it)
+            it.canvas = null
+        }
     }
 
     private val dolphinsCanvas = DolphinsCanvas()
 
     private inner class DolphinsCanvas : IDolphinsCanvas {
-        lateinit var canvas: Canvas
+        var canvas: Canvas? = null
 
         private val paint = Paint().apply {
             isAntiAlias = true
             strokeCap = Paint.Cap.ROUND
             strokeJoin = Paint.Join.ROUND
-            style = Paint.Style.STROKE
         }
 
         override fun center() {
-            canvas.translate(0.5f * canvas.width, 0.5f * canvas.height)
+            canvas!!.translate(0.5f * canvas!!.width, 0.5f * canvas!!.height)
         }
 
         override fun drawBackground() {
             paint.color = ContextCompat.getColor(context, R.color.dolphins_body)
             paint.shader = LinearGradient(
-                0f, 0f, 0f, 1f * canvas.height,
+                0f, 0f, 0f, 1f * canvas!!.height,
                 ContextCompat.getColor(context, R.color.dolphins_background_top),
                 ContextCompat.getColor(context, R.color.dolphins_background_bottom),
                 Shader.TileMode.CLAMP
             )
-            canvas.drawPaint(paint)
+            canvas!!.drawPaint(paint)
             paint.shader = null
         }
 
         override fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float) {
-            canvas.drawLine(x1, y1, x2, y2, paint)
+            canvas!!.drawLine(x1, y1, x2, y2, paint)
         }
 
         override fun drawPoint(x: Float, y: Float) {
-            canvas.drawPoint(x, y, paint)
+            canvas!!.drawPoint(x, y, paint)
         }
 
         override fun setStrokeWidth(strokeWidth: Float) {
@@ -59,8 +62,8 @@ class DolphinsCanvasFactory(private val context: Context) {
         }
 
         override fun zoom(factor: Float) {
-            val s = factor * minOf(canvas.width, canvas.height)
-            canvas.scale(s, s)
+            val s = factor * minOf(canvas!!.width, canvas!!.height)
+            canvas!!.scale(s, s)
         }
     }
 }
