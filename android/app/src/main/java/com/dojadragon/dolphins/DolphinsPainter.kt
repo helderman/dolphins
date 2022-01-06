@@ -25,14 +25,16 @@ class DolphinsPainter(
         val camX = cos(0.0002 * time).toFloat()
         val camY = sin(0.0002 * time).toFloat()
         for (i in -1..1) {
-            drawDolphin(orientationFactory.create(
+            orientationFactory.create(
                 camX,
                 camY,
                 20f * i,
                 -40f * i,
                 20f * i,
                 0.002 * (time + 300 * i)
-            ))
+            ) {
+                drawDolphin(it)
+            }
         }
     }
 

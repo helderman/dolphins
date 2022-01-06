@@ -12,14 +12,18 @@ class DolphinsOrientationFactory {
         dolphinX: Float,
         dolphinY: Float,
         dolphinZ: Float,
-        wave: Double
-    ) : IDolphinsOrientation = orientation.apply {
-        this.camX = camX
-        this.camY = camY
-        this.dolphinX = dolphinX
-        this.dolphinY = dolphinY
-        this.dolphinZ = dolphinZ
-        this.wave = wave
+        wave: Double,
+        action: (IDolphinsOrientation) -> Unit
+    ) {
+        orientation.let {
+            it.camX = camX
+            it.camY = camY
+            it.dolphinX = dolphinX
+            it.dolphinY = dolphinY
+            it.dolphinZ = dolphinZ
+            it.wave = wave
+            action(it)
+        }
     }
 
     private val orientation = DolphinsOrientation()
