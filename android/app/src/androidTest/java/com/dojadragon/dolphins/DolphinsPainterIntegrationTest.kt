@@ -36,13 +36,14 @@ class DolphinsPainterIntegrationTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val expected = getExpected(appContext, resourceId)
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
-        val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
+        val canvas = Canvas(bitmap)
+        val canvasFactory = DolphinsCanvasFactory(appContext)
         val frame = DolphinsPainter(
             DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { time }
 
-        frame.draw(canvas)
+        canvasFactory.create(canvas) { frame.draw(it) }
 
         assertMax("Bitmap difference", 70000, bitmapDifference(expected, bitmap))
     }
@@ -56,13 +57,14 @@ class DolphinsPainterIntegrationTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
-        val canvas = DolphinsCanvasFactory(appContext).create(Canvas(bitmap))
+        val canvas = Canvas(bitmap)
+        val canvasFactory = DolphinsCanvasFactory(appContext)
         val frame = DolphinsPainter(
             DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
             DolphinsVertexFactory()) { 1000L }
 
-        frame.draw(canvas)
+        canvasFactory.create(canvas) { frame.draw(it) }
 
         base64png(bitmap).lines().forEach { Log.d("OutputPNG", it) }
     }
