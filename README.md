@@ -9,7 +9,7 @@ License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ![Build](https://github.com/helderman/dolphins/actions/workflows/android-workflow.yml/badge.svg)
 
-Under review on Google Play.
+In open test on Google Play.
 
 - [Developer page](https://play.google.com/store/apps/dev?id=8002222045237401005)
 - [Privacy policy](android/privacy/index.md)

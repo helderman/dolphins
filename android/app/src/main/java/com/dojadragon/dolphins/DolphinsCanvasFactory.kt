@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 class DolphinsCanvasFactory(private val context: Context) {
     fun create(canvas: Canvas, action: (IDolphinsCanvas) -> Unit) {
         dolphinsCanvas.let {
+            //if (it.canvas != null) throw Exception("Unexpected re-entry")
             it.canvas = canvas
             action(it)
             it.canvas = null
