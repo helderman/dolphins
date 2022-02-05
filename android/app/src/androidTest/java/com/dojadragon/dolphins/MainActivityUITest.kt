@@ -58,6 +58,26 @@ class MainActivityUITest {
     }
 
     @Test
+    fun repeatedlySwitchBetweenWindows() = repeat(1) {
+        //val appContext = ApplicationProvider.getApplicationContext<Context>()
+
+        openAppDrawer()
+    }
+
+    private fun openAppDrawer() {
+        device.pressHome()
+        assertEquals("TODO", device.currentPackageName)
+
+        val button = device.findObject(UiSelector().descriptionContains("Apps list"))
+        //val button = device.wait(Until.findObject(By.desc("Apps list")), LAUNCH_TIMEOUT)
+        button.click()
+        Thread.sleep(3000L)
+        val dol = device.wait(Until.findObject(By.descStartsWith("3 Dol")), LAUNCH_TIMEOUT)
+        dol.click()
+        Thread.sleep(3000L)
+    }
+
+    @Test
     fun setWallpaperHome() = setWallpaper("Home screen")
 
     @Test

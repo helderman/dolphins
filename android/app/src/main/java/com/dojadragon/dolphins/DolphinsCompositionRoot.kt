@@ -9,6 +9,9 @@ object DolphinsCompositionRoot {
     fun createAnimationFactory() =
         DolphinsAnimationFactory()
 
+    fun createSynchronizerFactory() =
+        DolphinsSynchronizerFactory()
+
     fun createFrame(context: Context) =
         DolphinsFrame(
             DolphinsPainter(
