@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Shader
-import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 
 // Creates a wrapper around a Canvas (so that it can be mocked in unit tests).
