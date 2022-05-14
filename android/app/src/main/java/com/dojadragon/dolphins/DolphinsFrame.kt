@@ -9,17 +9,19 @@ import android.view.SurfaceHolder
 
 class DolphinsFrame(private val painter: DolphinsPainter, private val canvasFactory: DolphinsCanvasFactory) {
     fun drawFrame(surfaceHolder: SurfaceHolder) {
-        val canvas: Canvas = surfaceHolder.lockCanvas()
-        try {
-            canvas.save()
-            canvasFactory.create(canvas) { painter.draw(it) }
-            canvas.restore()
-        } finally {
+        val canvas: Canvas? = surfaceHolder.lockCanvas()
+        if (canvas != null) {
             try {
-                surfaceHolder.unlockCanvasAndPost(canvas)
-            } catch (ex: IllegalArgumentException) {
-                // Ignore; seems impossible to 100% prevent this
-                Log.d("Dolphins", "unlockCanvasAndPost failed", ex)
+                canvas.save()
+                canvasFactory.create(canvas) { painter.draw(it) }
+                canvas.restore()
+            } finally {
+                try {
+                    surfaceHolder.unlockCanvasAndPost(canvas)
+                } catch (ex: IllegalArgumentException) {
+                    // Ignore; seems impossible to 100% prevent this
+                    Log.d("Dolphins", "unlockCanvasAndPost failed", ex)
+                }
             }
         }
     }
