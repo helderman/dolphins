@@ -21,6 +21,9 @@ class DolphinsFrame(private val painter: DolphinsPainter, private val canvasFact
                 } catch (ex: IllegalArgumentException) {
                     // Ignore; seems impossible to 100% prevent this
                     Log.d("Dolphins", "unlockCanvasAndPost failed", ex)
+                } catch (ex: IllegalStateException) {
+                    // "Surface has already been released" - June 27, 2022
+                    Log.d("Dolphins", "unlockCanvasAndPost failed", ex)
                 }
             }
         }
