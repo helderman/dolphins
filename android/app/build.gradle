@@ -55,7 +55,7 @@ android {
     }
     lint {
         abortOnError true
-        checkAllWarnings true
+        checkAllWarnings false    // TODO: back to true soon; see https://github.com/Kotlin/kotlinx.coroutines/issues/3277
         informational 'UnsupportedChromeOsHardware'
         warningsAsErrors true
     }
