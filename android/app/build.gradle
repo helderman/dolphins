@@ -12,14 +12,14 @@ android {
             keyAlias System.getenv("KEY_ALIAS")
         }
     }
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.dojadragon.dolphins"
         minSdk 14
-        targetSdk 32
-        versionCode 9
-        versionName "1.0.8"
+        targetSdk 33
+        versionCode 10
+        versionName "1.0.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -59,13 +59,15 @@ android {
         informational 'UnsupportedChromeOsHardware'
         warningsAsErrors true
     }
+    namespace 'com.dojadragon.dolphins'
+    testNamespace '${applicationId}'
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
