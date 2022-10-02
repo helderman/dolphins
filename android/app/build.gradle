@@ -60,7 +60,7 @@ android {
         warningsAsErrors true
     }
     namespace 'com.dojadragon.dolphins'
-    testNamespace '${applicationId}'
+    testNamespace 'com.dojadragon.dolphins'
 }
 
 dependencies {
