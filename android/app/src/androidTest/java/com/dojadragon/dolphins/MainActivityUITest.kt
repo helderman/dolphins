@@ -4,7 +4,6 @@ import android.app.WallpaperInfo
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock.sleep
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
@@ -17,6 +16,7 @@ import org.junit.runner.RunWith
 
 private const val DOLPHINS_PACKAGE = "com.dojadragon.dolphins"
 private const val LAUNCH_TIMEOUT = 5000L
+private const val IDLE_TIMEOUT = 30000L
 
 // UI tests
 // https://developer.android.com/training/testing/ui-testing/uiautomator-testing
@@ -86,8 +86,7 @@ class MainActivityUITest {
     }
 
     private fun findWallpaperInfo(wallpaperManager: WallpaperManager): WallpaperInfo {
-        sleep(LAUNCH_TIMEOUT)
-        device.waitForIdle()
+        device.waitForIdle(IDLE_TIMEOUT)
         val wallpaperInfo = wallpaperManager.wallpaperInfo
         assertNotNull("Live wallpaper", wallpaperInfo)
         return wallpaperInfo
