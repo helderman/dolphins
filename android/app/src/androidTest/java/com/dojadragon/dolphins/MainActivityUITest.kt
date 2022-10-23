@@ -87,7 +87,7 @@ class MainActivityUITest {
     }
 
     private fun findWallpaperInfo(wallpaperManager: WallpaperManager): WallpaperInfo {
-        sleep(LAUNCH_TIMEOUT)
+        sleep(IDLE_TIMEOUT)
         device.waitForIdle(IDLE_TIMEOUT)
         val wallpaperInfo = wallpaperManager.wallpaperInfo
         assertNotNull("Live wallpaper", wallpaperInfo)
