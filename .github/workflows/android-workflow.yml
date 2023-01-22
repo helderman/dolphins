@@ -8,7 +8,7 @@ jobs:
                 runs-on: ubuntu-latest
                 steps:
                         - name: Checkout
-                          uses: actions/checkout@v2
+                          uses: actions/checkout@v3
 
                         - name: Setup Android SDK
                           uses: android-actions/setup-android@v2
@@ -47,7 +47,7 @@ jobs:
 
                         - name: Upload artifacts
                           if: always()
-                          uses: actions/upload-artifact@v2
+                          uses: actions/upload-artifact@v3
                           with:
                                   name: android-build
                                   path: android/app/build/*ts/
@@ -69,7 +69,7 @@ jobs:
                                           arch: x86
                 steps:
                         - name: Checkout
-                          uses: actions/checkout@v2
+                          uses: actions/checkout@v3
 
                         - name: Setup Android SDK
                           uses: android-actions/setup-android@v2
@@ -91,7 +91,7 @@ jobs:
 
                         - name: Upload artifacts
                           if: always()
-                          uses: actions/upload-artifact@v2
+                          uses: actions/upload-artifact@v3
                           with:
                                   name: android-test-${{ matrix.api-level }}
                                   path: android/app/build/reports/
