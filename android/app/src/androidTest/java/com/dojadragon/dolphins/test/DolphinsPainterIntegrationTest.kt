@@ -33,13 +33,11 @@ class DolphinsPainterIntegrationTest {
 
     // Arrange, Act, Assert
     private fun draw_Xs(time: Long, resourceId: Int) {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val instrumentationContext = InstrumentationRegistry.getInstrumentation().context
-        val expected = getExpected(instrumentationContext, resourceId)
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        val expected = getExpected(instrumentation.context, resourceId)
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        val canvasFactory = DolphinsCanvasFactory(appContext)
+        val canvasFactory = DolphinsCanvasFactory(instrumentation.targetContext)
         val frame = DolphinsPainter(
             DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
