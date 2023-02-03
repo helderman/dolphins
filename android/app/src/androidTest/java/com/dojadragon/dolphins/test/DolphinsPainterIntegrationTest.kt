@@ -1,4 +1,4 @@
-package com.dojadragon.dolphins
+package com.dojadragon.dolphins.test
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.dojadragon.dolphins.*
 import java.io.ByteArrayOutputStream
 import org.junit.Assert.assertTrue
 import org.junit.Ignore
@@ -34,7 +35,8 @@ class DolphinsPainterIntegrationTest {
     private fun draw_Xs(time: Long, resourceId: Int) {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val expected = getExpected(appContext, resourceId)
+        val instrumentationContext = InstrumentationRegistry.getInstrumentation().context
+        val expected = getExpected(instrumentationContext, resourceId)
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         val canvasFactory = DolphinsCanvasFactory(appContext)

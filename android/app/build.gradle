@@ -46,13 +46,6 @@ android {
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
-    sourceSets {
-        main {
-            res {
-                srcDirs 'src/main/res', 'src/androidTest/res'
-            }
-        }
-    }
     lint {
         abortOnError true
         checkAllWarnings false    // TODO: back to true soon; see https://github.com/Kotlin/kotlinx.coroutines/issues/3277

@@ -1,4 +1,4 @@
-package com.dojadragon.dolphins
+package com.dojadragon.dolphins.test
 
 import android.app.WallpaperInfo
 import android.app.WallpaperManager
@@ -77,7 +77,7 @@ class MainActivityUITest {
         findAndClickWidget("TextView", captionOfChoice)
 
         assertEquals(
-            DolphinsWallpaperService::class.qualifiedName,
+            com.dojadragon.dolphins.DolphinsWallpaperService::class.qualifiedName,
             findWallpaperInfo(wallpaperManager).serviceName
         )
     }
