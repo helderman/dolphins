@@ -54,11 +54,10 @@ class DolphinsPainterIntegrationTest {
     // Filter Logcat with "OutputPNG" to find the BASE64-encoded data. Feed the data into:
     // grep -oP ': \K\S+' | base64 -d > frameXXX.png
     fun generateBaselinePNG() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
         val bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        val canvasFactory = DolphinsCanvasFactory(appContext)
+        val canvasFactory = DolphinsCanvasFactory(instrumentation.targetContext)
         val frame = DolphinsPainter(
             DolphinsOrientationFactory(),
             DolphinsVertexFactory(),
