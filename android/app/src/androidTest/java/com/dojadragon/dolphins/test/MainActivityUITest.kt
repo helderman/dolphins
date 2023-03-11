@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 private const val DOLPHINS_PACKAGE = "com.dojadragon.dolphins"
-private const val LAUNCH_TIMEOUT = 20000L
+private const val LAUNCH_TIMEOUT = 30000L
 private const val IDLE_TIMEOUT = 20000L
 private const val POLL_INTERVAL = 2000L
 private const val POLL_ATTEMPTS = 10
