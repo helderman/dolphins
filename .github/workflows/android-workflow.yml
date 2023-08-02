@@ -10,11 +10,15 @@ jobs:
                         - name: Checkout
                           uses: actions/checkout@v3
 
+                        - name: Setup JDK
+                          uses: actions/setup-java@v3
+                          with:
+                                  distribution: 'temurin'
+                                  java-version: '17'
+                                  cache: 'gradle'
+
                         - name: Setup Android SDK
                           uses: android-actions/setup-android@v2
-
-                        - name: Set JAVA_HOME for gradle
-                          run: echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
 
                         - name: Make gradlew executable
                           run: chmod +x ./gradlew
@@ -71,11 +75,15 @@ jobs:
                         - name: Checkout
                           uses: actions/checkout@v3
 
+                        - name: Setup JDK
+                          uses: actions/setup-java@v3
+                          with:
+                                  distribution: 'temurin'
+                                  java-version: '17'
+                                  cache: 'gradle'
+
                         - name: Setup Android SDK
                           uses: android-actions/setup-android@v2
-
-                        - name: Set JAVA_HOME for gradle
-                          run: echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
 
                         - name: Make gradlew executable
                           run: chmod +x ./gradlew
