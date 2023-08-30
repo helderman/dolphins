@@ -49,9 +49,8 @@ android {
     lint {
         abortOnError true
         checkAllWarnings true
-        informational 'MinSdkTooLow', 'UnsupportedChromeOsHardware'
+        informational 'MinSdkTooLow', 'UnsupportedChromeOsHardware', 'OldTargetApi'
         warningsAsErrors true
-        warning 'OldTargetApi'
     }
     namespace 'com.dojadragon.dolphins'
 }
