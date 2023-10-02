@@ -12,7 +12,7 @@ android {
             keyAlias System.getenv("KEY_ALIAS")
         }
     }
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.dojadragon.dolphins"
