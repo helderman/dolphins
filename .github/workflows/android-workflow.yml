@@ -6,6 +6,9 @@ defaults:
 jobs:
         build:
                 runs-on: ubuntu-latest
+                outputs:
+                        appVersionCode: ${{ steps.version.outputs.appVersionCode }}
+                        appVersionTag: ${{ steps.version.outputs.appVersionTag }}
                 steps:
                         - name: Checkout
                           uses: actions/checkout@v3
@@ -52,6 +55,25 @@ jobs:
                                   name: android-build
                                   path: android/app/build/*ts/
 
+                        - id: version
+                          name: Get version
+                          run: |
+                                appVersionCode="$(grep -oP '^\s*versionCode\s+\K\d+' app/build.gradle)"
+                                appVersionName="$(grep -oP '^\s*versionName\s+"\K[^"]+' app/build.gradle)"
+                                appVersionTag="android-$appVersionName"
+                                if [ -z "$appVersionCode" -o -z "$appVersionName" ]; then
+                                        echo "::error::Version info not found in app/build.gradle"
+                                elif [ "$(git tag -l "$appVersionTag")" ]; then
+                                        echo "::warning::Tag $appVersionTag already exists; will not deploy"
+                                elif [ "$APP_BRANCH" != 'refs/heads/master' ]; then
+                                        echo "::warning::Branch $APP_BRANCH is not master; will not deploy"
+                                else
+                                        echo "appVersionCode=$appVersionCode" >> $GITHUB_OUTPUT
+                                        echo "appVersionTag=$appVersionTag" >> $GITHUB_OUTPUT
+                                fi
+                          env:
+                                APP_BRANCH: ${{ github.ref }}
+
         test:
                 runs-on: macos-latest
                 strategy:
@@ -95,3 +117,30 @@ jobs:
                           with:
                                   name: android-test-${{ matrix.api-level }}
                                   path: android/app/build/reports/
+
+        deploy:
+                runs-on: ubuntu-latest
+                needs: [build, test]
+                if: ${{ needs.build.outputs.appVersionTag }}
+                steps:
+                        - name: Download build artifact
+                          uses: actions/download-artifact@v3
+                          with:
+                                  name: android-build
+
+                        - name: Upload bundle to Google Play
+                          uses: r0adkll/upload-google-play@v1
+                          with:
+                                  serviceAccountJsonPlainText: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+                                  packageName: com.dojadragon.dolphins
+                                  releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+                                  track: internal
+                                  status: completed
+
+                        - name: Set tag
+                          run: |
+                                git tag -a "$appVersionTag" -m "Release $appVersionCode - auto-upload $(date +'%Y-%m-%d')."
+                                git push origin "$appVersionTag"
+                          env:
+                                appVersionCode: ${{ needs.build.outputs.appVersionCode }}
+                                appVersionTag: ${{ needs.build.outputs.appVersionTag }}
