@@ -12,14 +12,14 @@ android {
             keyAlias System.getenv("KEY_ALIAS")
         }
     }
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.dojadragon.dolphins"
         minSdk 14
-        targetSdk 33
-        versionCode 11
-        versionName "1.0.10"
+        targetSdk 34
+        versionCode 13
+        versionName "1.0.12"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -49,14 +49,14 @@ android {
     lint {
         abortOnError true
         checkAllWarnings true
-        informational 'MinSdkTooLow', 'UnsupportedChromeOsHardware'
+        informational 'MinSdkTooLow', 'UnsupportedChromeOsHardware', 'OldTargetApi'
         warningsAsErrors true
     }
     namespace 'com.dojadragon.dolphins'
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
     testImplementation 'junit:junit:4.13.2'
