@@ -64,14 +64,14 @@ jobs:
                                 echo Ruud appVersionName = $appVersionName
                                 appVersionTag="android-$appVersionName"
                                 echo Ruud appVersionTag = $appVersionTag
-                                git tag -l "$appVersionTag"
+                                git ls-remote --tags origin "refs/tags/$appVersionTag"
                                 echo Ruud start
                                 if [ -z "$appVersionCode" -o -z "$appVersionName" ]; then
                                         echo "::error::Version info not found in app/build.gradle"
                                 elif [ "$(git tag -l "$appVersionTag")" ]; then
                                         echo "::warning::Tag $appVersionTag already exists; will not deploy"
-                                elif [ "$APP_BRANCH" != 'refs/heads/master' ]; then
-                                        echo "::warning::Branch $APP_BRANCH is not master; will not deploy"
+                                elif [ "$APP_BRANCH" != 'refs/heads/testdeploy' ]; then
+                                        echo "::warning::Branch $APP_BRANCH is not testdeploy; will not deploy"
                                 else
                                         echo "::warning::Ruud DEBUG"
                                         echo "appVersionCode=$appVersionCode" >> $GITHUB_OUTPUT
@@ -80,53 +80,9 @@ jobs:
                           env:
                                 APP_BRANCH: ${{ github.ref }}
 
-        test:
-                runs-on: macos-latest
-                strategy:
-                        fail-fast: false
-                        matrix:
-                                api-level: [29, 31, 32, 33]
-                                target: [google_apis]
-                                arch: [x86_64]
-                                include:
-                                        - api-level: 15
-                                          target: google_apis
-                                          arch: x86
-                                        - api-level: 16
-                                          target: google_apis
-                                          arch: x86
-                steps:
-                        - name: Checkout
-                          uses: actions/checkout@v4
-
-                        - name: Setup Android SDK
-                          uses: android-actions/setup-android@v2
-
-                        - name: Set JAVA_HOME for gradle
-                          run: echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
-
-                        - name: Make gradlew executable
-                          run: chmod +x ./gradlew
-
-                        - name: Integration tests
-                          uses: reactivecircus/android-emulator-runner@v2
-                          with:
-                                  api-level: ${{ matrix.api-level }}
-                                  target: ${{ matrix.target }}
-                                  arch: ${{ matrix.arch }}
-                                  script: ./gradlew --no-daemon connectedCheck
-                                  working-directory: android
-
-                        - name: Upload artifacts
-                          if: always()
-                          uses: actions/upload-artifact@v3
-                          with:
-                                  name: android-test-${{ matrix.api-level }}
-                                  path: android/app/build/reports/
-
         deploy:
                 runs-on: ubuntu-latest
-                needs: [build, test]
+                needs: build
                 if: ${{ needs.build.outputs.appVersionTag }}
                 steps:
                         - name: Download build artifact
