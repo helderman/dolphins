@@ -59,8 +59,13 @@ jobs:
                           name: Get version
                           run: |
                                 appVersionCode="$(grep -oP '^\s*versionCode\s+\K\d+' app/build.gradle)"
+                                echo Ruud appVersionCode = $appVersionCode
                                 appVersionName="$(grep -oP '^\s*versionName\s+"\K[^"]+' app/build.gradle)"
+                                echo Ruud appVersionName = $appVersionName
                                 appVersionTag="android-$appVersionName"
+                                echo Ruud appVersionTag = $appVersionTag
+                                git tag -l "$appVersionTag"
+                                echo Ruud start
                                 if [ -z "$appVersionCode" -o -z "$appVersionName" ]; then
                                         echo "::error::Version info not found in app/build.gradle"
                                 elif [ "$(git tag -l "$appVersionTag")" ]; then
@@ -68,6 +73,7 @@ jobs:
                                 elif [ "$APP_BRANCH" != 'refs/heads/master' ]; then
                                         echo "::warning::Branch $APP_BRANCH is not master; will not deploy"
                                 else
+                                        echo "::warning::Ruud DEBUG"
                                         echo "appVersionCode=$appVersionCode" >> $GITHUB_OUTPUT
                                         echo "appVersionTag=$appVersionTag" >> $GITHUB_OUTPUT
                                 fi
@@ -127,6 +133,11 @@ jobs:
                           uses: actions/download-artifact@v3
                           with:
                                   name: android-build
+
+                        - name: DEBUG download
+                          run: |
+                                pwd
+                                ls -R
 
                         - name: Upload bundle to Google Play
                           uses: r0adkll/upload-google-play@v1
