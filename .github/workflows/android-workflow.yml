@@ -85,15 +85,19 @@ jobs:
                 needs: build
                 if: ${{ needs.build.outputs.appVersionTag }}
                 steps:
+                        - name: Checkout
+                          uses: actions/checkout@v4
+
                         - name: Download build artifact
                           uses: actions/download-artifact@v3
                           with:
                                   name: android-build
+                                  path: android/app/build
 
                         - name: DEBUG download
                           run: |
                                 pwd
-                                ls -R
+                                ls -R app/build
 
                         - name: Upload bundle to Google Play
                           uses: r0adkll/upload-google-play@v1
