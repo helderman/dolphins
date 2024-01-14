@@ -79,7 +79,7 @@ jobs:
                 strategy:
                         fail-fast: false
                         matrix:
-                                api-level: [29, 31, 32, 33]
+                                api-level: [29, 32, 33, 34]
                                 target: [google_apis]
                                 arch: [x86_64]
                                 include:
