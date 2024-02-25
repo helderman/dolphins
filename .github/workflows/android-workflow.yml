@@ -79,14 +79,11 @@ jobs:
                 strategy:
                         fail-fast: false
                         matrix:
-                                api-level: [29, 32, 33, 34]
+                                api-level: [21, 29, 32, 33, 34]
                                 target: [google_apis]
                                 arch: [x86_64]
                                 include:
-                                        - api-level: 15
-                                          target: google_apis
-                                          arch: x86
-                                        - api-level: 16
+                                        - api-level: 19
                                           target: google_apis
                                           arch: x86
                 steps:
