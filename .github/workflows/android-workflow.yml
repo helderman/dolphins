@@ -14,7 +14,7 @@ jobs:
                           uses: actions/checkout@v4
 
                         - name: Setup Android SDK
-                          uses: android-actions/setup-android@v2
+                          uses: android-actions/setup-android@v3
 
                         - name: Set JAVA_HOME for gradle
                           run: echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
@@ -50,7 +50,7 @@ jobs:
 
                         - name: Upload artifacts
                           if: always()
-                          uses: actions/upload-artifact@v3
+                          uses: actions/upload-artifact@v4
                           with:
                                 name: android-build
                                 path: android/app/build/*ts/
@@ -91,7 +91,7 @@ jobs:
                           uses: actions/checkout@v4
 
                         - name: Setup Android SDK
-                          uses: android-actions/setup-android@v2
+                          uses: android-actions/setup-android@v3
 
                         - name: Set JAVA_HOME for gradle
                           run: echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
@@ -110,7 +110,7 @@ jobs:
 
                         - name: Upload artifacts
                           if: always()
-                          uses: actions/upload-artifact@v3
+                          uses: actions/upload-artifact@v4
                           with:
                                 name: android-test-${{ matrix.api-level }}
                                 path: android/app/build/reports/
