@@ -4,6 +4,7 @@ import android.app.WallpaperInfo
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.SystemClock.sleep
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
@@ -26,7 +27,6 @@ private const val POLL_ATTEMPTS = 10
 // https://developer.android.com/training/testing/ui-testing/uiautomator-testing
 
 @RunWith(AndroidJUnit4::class)
-@SdkSuppress(minSdkVersion = 18)
 class MainActivityUITest {
     private lateinit var device: UiDevice
 
@@ -61,6 +61,8 @@ class MainActivityUITest {
         )
     }
 
+    // API version 26+: dialog to choose between home and home+lock
+    @SdkSuppress(minSdkVersion = Build.VERSION_CODES.O)
     @Test
     fun setWallpaperHome() = setWallpaper("Home screen")
 
@@ -73,8 +75,14 @@ class MainActivityUITest {
         val wallpaperManager = WallpaperManager.getInstance(appContext)
         assertNull("Live wallpaper", wallpaperManager.wallpaperInfo)
 
+        // Button caption is "Set wallpaper" in most API versions,
+        // "SET WALLPAPER" in a few (25, 26, not sure about 27 and 28)
         findAndClickWidget("Button", "Set wallpaper")
-        findAndClickWidget("TextView", captionOfChoice)
+
+        // API version 26+: dialog to choose between home and home+lock
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            findAndClickWidget("TextView", captionOfChoice)
+        }
 
         assertEquals(
             com.dojadragon.dolphins.DolphinsWallpaperService::class.qualifiedName,
