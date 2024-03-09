@@ -148,6 +148,8 @@ jobs:
 
                         - name: Set tag
                           run: |
+                                git config --global user.email 'r.helderman@hccnet.nl'
+                                git config --global user.name 'helderman'
                                 git tag -a "$appVersionTag" -m "Release $appVersionCode - auto-upload $(date +'%Y-%m-%d')."
                                 git push origin "$appVersionTag"
                           env:
