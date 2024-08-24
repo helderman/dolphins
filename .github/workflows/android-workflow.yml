@@ -79,7 +79,7 @@ jobs:
                                 APP_BRANCH: ${{ github.ref }}
 
         test:
-                runs-on: macos-latest
+                runs-on: macos-13
                 strategy:
                         fail-fast: false
                         matrix:
