@@ -18,7 +18,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 private const val DOLPHINS_PACKAGE = "com.dojadragon.dolphins"
-private const val LAUNCH_TIMEOUT = 30000L
+private const val PICKER_PACKAGE = "com.android.wallpaper.livepicker"
+private const val LAUNCH_TIMEOUT = 5000L
+private const val BUTTON_TIMEOUT = 60000L
 private const val IDLE_TIMEOUT = 20000L
 private const val POLL_INTERVAL = 2000L
 private const val POLL_ATTEMPTS = 10
@@ -56,7 +58,7 @@ class MainActivityUITest {
 
         // Wait for the app to appear
         device.wait(
-            Until.hasObject(By.pkg(DOLPHINS_PACKAGE).depth(0)),
+            Until.hasObject(By.pkg(PICKER_PACKAGE).depth(0)),
             LAUNCH_TIMEOUT
         )
     }
