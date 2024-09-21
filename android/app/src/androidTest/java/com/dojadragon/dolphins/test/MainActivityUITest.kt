@@ -20,7 +20,7 @@ import org.junit.runner.RunWith
 private const val DOLPHINS_PACKAGE = "com.dojadragon.dolphins"
 private const val PICKER_PACKAGE = "com.android.wallpaper.livepicker"
 private const val LAUNCH_TIMEOUT = 5000L
-private const val BUTTON_TIMEOUT = 60000L
+private const val WIDGET_TIMEOUT = 60000L
 private const val IDLE_TIMEOUT = 20000L
 private const val POLL_INTERVAL = 2000L
 private const val POLL_ATTEMPTS = 10
@@ -94,7 +94,7 @@ class MainActivityUITest {
 
     private fun findAndClickWidget(type: String, caption: String) {
         val condition = By.clazz("android.widget.$type").text(caption)
-        val widget = device.wait(Until.findObject(condition), LAUNCH_TIMEOUT)
+        val widget = device.wait(Until.findObject(condition), WIDGET_TIMEOUT)
         assertNotNull("$type '$caption' expected", widget)
         widget.click()
     }
