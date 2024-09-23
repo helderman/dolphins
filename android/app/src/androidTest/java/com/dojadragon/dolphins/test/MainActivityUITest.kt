@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 
 private const val DOLPHINS_PACKAGE = "com.dojadragon.dolphins"
 private const val PICKER_PACKAGE = "com.android.wallpaper.livepicker"
-private const val LAUNCH_TIMEOUT = 5000L
+private const val LAUNCH_TIMEOUT = 60000L
 private const val WIDGET_TIMEOUT = 60000L
 private const val IDLE_TIMEOUT = 20000L
 private const val POLL_INTERVAL = 2000L
@@ -42,10 +42,12 @@ class MainActivityUITest {
 
         // Wait for launcher
         val launcherPackage: String = device.launcherPackageName
-        assertNotNull(launcherPackage)
-        device.wait(
-            Until.hasObject(By.pkg(launcherPackage).depth(0)),
-            LAUNCH_TIMEOUT
+        assertNotNull("Launcher", launcherPackage)
+        assertTrue("Launcher $launcherPackage",
+            device.wait(
+                Until.hasObject(By.pkg(launcherPackage).depth(0)),
+                LAUNCH_TIMEOUT
+            )
         )
 
         // Launch the app
@@ -56,10 +58,12 @@ class MainActivityUITest {
         }
         context.startActivity(intent)
 
-        // Wait for the app to appear
-        device.wait(
-            Until.hasObject(By.pkg(PICKER_PACKAGE).depth(0)),
-            LAUNCH_TIMEOUT
+        // Wait for the app to appear (or rather, the wallpaper picker)
+        assertTrue("Picker $PICKER_PACKAGE",
+            device.wait(
+                Until.hasObject(By.pkg(PICKER_PACKAGE).depth(0)),
+                LAUNCH_TIMEOUT
+            )
         )
     }
 
