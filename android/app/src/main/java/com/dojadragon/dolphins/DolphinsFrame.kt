@@ -3,6 +3,7 @@ package com.dojadragon.dolphins
 import android.graphics.Canvas
 import android.util.Log
 import android.view.SurfaceHolder
+import androidx.core.graphics.withSave
 
 // Draw a single frame for the animation on canvas
 // Can be used both in a Live Wallpaper and in a regular SurfaceView
@@ -12,9 +13,9 @@ class DolphinsFrame(private val painter: DolphinsPainter, private val canvasFact
         val canvas: Canvas? = surfaceHolder.lockCanvas()
         if (canvas != null) {
             try {
-                canvas.save()
-                canvasFactory.create(canvas) { painter.draw(it) }
-                canvas.restore()
+                canvas.withSave() {
+                    canvasFactory.create(this) { painter.draw(it) }
+                }
             } finally {
                 try {
                     surfaceHolder.unlockCanvasAndPost(canvas)
