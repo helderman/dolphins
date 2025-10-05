@@ -145,7 +145,7 @@ jobs:
                           uses: actions/download-artifact@v4
                           with:
                                 name: android-build
-                                path: android/app/build/
+                                path: android/
 
                         - name: Upload bundle to Google Play
                           uses: r0adkll/upload-google-play@v1
