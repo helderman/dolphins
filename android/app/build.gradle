@@ -6,22 +6,22 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file(String.valueOf(System.getenv("KEYSTORE_FILENAME")))
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyPassword System.getenv("KEY_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
+            storeFile file(String.valueOf(System.getenv('KEYSTORE_FILENAME')))
+            storePassword System.getenv('KEYSTORE_PASSWORD')
+            keyPassword System.getenv('KEY_PASSWORD')
+            keyAlias System.getenv('KEY_ALIAS')
         }
     }
     compileSdkVersion 36
 
     defaultConfig {
-        applicationId "com.dojadragon.dolphins"
-        minSdk 21
-        targetSdk 36
-        versionCode 17
-        versionName "1.1.1"
+        applicationId = 'com.dojadragon.dolphins'
+        minSdk = 21
+        targetSdk = 36
+        versionCode = 17
+        versionName = '1.1.1'
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
 
         // The following argument makes the Android Test Orchestrator run its
         // "pm clear" command after each test invocation. This command ensures
@@ -33,26 +33,26 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.release
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
     testOptions {
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        execution = 'ANDROIDX_TEST_ORCHESTRATOR'
     }
     lint {
-        abortOnError true
-        checkAllWarnings true
-        informational 'UnsupportedChromeOsHardware', 'OldTargetApi'
-        warningsAsErrors true
+        abortOnError = true
+        checkAllWarnings = true
+        informational = ['UnsupportedChromeOsHardware', 'OldTargetApi']
+        warningsAsErrors = true
     }
-    namespace 'com.dojadragon.dolphins'
+    namespace = 'com.dojadragon.dolphins'
 }
 
 dependencies {

@@ -63,13 +63,15 @@ jobs:
                           uses: actions/upload-artifact@v4
                           with:
                                 name: android-build
-                                path: android/app/build/*ts/
+                                path: |
+                                  android/app/build/*ts/
+                                  android/build/reports/
 
                         - id: version
                           name: Get version
                           run: |
-                                appVersionCode="$(grep -oP '^\s*versionCode\s+\K\d+' app/build.gradle)"
-                                appVersionName="$(grep -oP '^\s*versionName\s+"\K[^"]+' app/build.gradle)"
+                                appVersionCode="$(grep -oP "^\s*versionCode\s*=\s*\K\d+" app/build.gradle)"
+                                appVersionName="$(grep -oP "^\s*versionName\s*=\s*'\K[^']+" app/build.gradle)"
                                 appVersionTag="android-$appVersionName"
                                 if [ -z "$appVersionCode" -o -z "$appVersionName" ]; then
                                         echo "::error::Version info not found in app/build.gradle"
